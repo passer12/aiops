@@ -40,13 +40,13 @@ def tokentest(request):
     print(request.user)
     return HttpResponse("hello")
 
-
+# 控制路由的配置
 urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
-    path('api/', include('djoser.urls'), name='djoserApi'),
-    path('api/', include('djoser.urls.jwt'), name='djoserJWT'),
+    path('api/', include('djoser.urls'), name='djoserApi'),   # 用户登录注册相关路由，直接调用djoser库
+    path('api/', include('djoser.urls.jwt'), name='djoserJWT'),  # jwt token相关路由，用来维持用户状态，就是cookie
     # path('api/', include(router.urls)),
-    path('api/repos/', include('gitRepo.urls')),
+    path('api/repos/', include('gitRepo.urls')),              # gitrepo数据库增删改查路由
     
 ]

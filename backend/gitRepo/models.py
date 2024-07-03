@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+# 定义的仓库数据库
 class Repository(models.Model):
     RepositoryID = models.AutoField(primary_key=True)
     Name = models.CharField(max_length=255, unique=True)

@@ -13,7 +13,7 @@ from rest_framework.decorators import api_view
 #     serializer_class = RepositorySerializer
 
 
-# 获取用户的所有仓库
+# 获取用户的所有仓库，以及创建新的
 @api_view(['GET', 'POST'])
 def repos(request):
     # 验证JWT令牌，考虑在每一个请求前都加上这个验证
@@ -49,8 +49,9 @@ def repos(request):
         return JsonResponse(repo_serializer.errors, status=400)
 
 
+# 获取、更新、删除仓库信息
 @api_view(['GET', 'PATCH', 'DELETE'])
-def repos_detail(request, repo_id): #
+def repos_detail(request, repo_id):
     # 验证JWT令牌，考虑在每一个请求前都加上这个验证
     jwt_authenticator = JWTAuthentication()
     user, token = jwt_authenticator.authenticate(request)
