@@ -10,11 +10,12 @@ const model = ref([
     },
     {
         label: '个人仓库',
-        items: [{ label: '你的仓库', icon: 'pi pi-fw pi-id-card', to: '/pages/RepoCrud' }]
+        items: [{ label: '管理仓库', icon: 'pi pi-fw pi-id-card', to: '/pages/RepoCrud' },
+                { label: '你的仓库', icon: 'pi pi-fw pi-id-card', to: '/pages/repolist' }],
     },
     {
-        label: '评估页面',
-        items: [{ label: '评估页面', icon: 'pi pi-fw pi-chart-bar', to: '/pages/evaluate' }]
+        label: '个人资料',
+        items: [{ label: '个人资料', icon: 'pi pi-fw pi-chart-bar', to: '/pages/profile' }]
     }
     // {
     //     label: '功能',

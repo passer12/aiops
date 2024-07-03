@@ -35,11 +35,11 @@ def repos(request):
         # 创建一个新的仓库
         repo_data = request.data
         new_repo_data = {'Name': repo_data['Name'],
-                         'Description': repo_data['Description'] ,
+                         'Description': repo_data['Description'],
                          'Link': repo_data['Link'],
                          'Owner': user.pk}
         # 为repo_data添加一个Owner字段,但是由于他是QueryDick类型，所以不能直接添加
-        print(repo_data)
+        # print(repo_data)
         repo_serializer = RepositorySerializer(data=new_repo_data)
 
         if repo_serializer.is_valid():
@@ -69,8 +69,8 @@ def repos_detail(request, repo_id): #
             return JsonResponse({'error': 'Repository not found'}, status=404)
 
     elif request.method == 'PATCH':
-        print("a pathc")
-        print(request.data)
+        #print("a pathc")
+        #print(request.data)
         # 更新仓库信息
         try:
             repo = Repository.objects.get(RepositoryID=repo_id, Owner=user.pk)

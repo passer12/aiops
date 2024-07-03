@@ -154,6 +154,16 @@ const router = createRouter({
                     component: () => import('@/views/pages/RepoCrud.vue')
                 },
                 {
+                    path: '/pages/repolist',
+                    name: 'repolist',
+                    component: () => import('@/views/pages/Repolist.vue')
+                },
+                {
+                    path: '/pages/profile',
+                    name: 'profile',
+                    component: () => import('@/views/pages/profile.vue')
+                },
+                {
                     path: '/pages/evaluate',
                     name: 'evaluate',
                     component: () => import('@/views/frontend/Evaluate.vue')
