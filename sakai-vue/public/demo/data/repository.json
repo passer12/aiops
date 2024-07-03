@@ -1,0 +1,18 @@
+{
+  "data": [
+    {
+      "RepositoryID": 1,
+      "name": "repo123",
+      "description": "it is a name",
+      "link": "",
+      "CreateTime": "2024-06-30T13:50:08.938919Z",
+      "Owner": 3,
+      "image": "bamboo-watch.jpg",
+      "price": 65,
+      "category": "Accessories",
+      "quantity": 24,
+      "inventoryStatus": "INSTOCK",
+      "rating": 5
+    }
+  ]
+}

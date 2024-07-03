@@ -1,0 +1,276 @@
+{
+  "root": [
+    {
+      "key": "0",
+      "label": "Documents",
+      "data": [
+        {
+          "title": "文件信息",
+          "content": "Tree state can be controlled \r\n programmatically with the expandedKeys property that defines the keys that are expanded. This property is a Map instance whose key is the key of a node and value is a boolean. Note that expandedKeys also supports two-way binding with the v-model directive."
+        },
+        {
+          "title": "代码审查",
+          "content": "命名不符合规范等等之类的"
+        },
+        {
+          "title": "代码优化",
+          "content": "请选择文件"
+        },
+        {
+          "title": "代码分析",
+          "content": "请选择文件"
+        }
+      ],
+      "children": [
+        {
+          "key": "0-0",
+          "label": "Work",
+          "data": [
+            {
+              "title": "文件信息",
+              "content": "2"
+            },
+            {
+              "title": "代码审查",
+              "content": "请选择文件"
+            },
+            {
+              "title": "代码优化",
+              "content": "请选择文件"
+            },
+            {
+              "title": "代码分析",
+              "content": "请选择文件"
+            }
+          ],
+          "children": [
+            {
+              "key": "0-0-0",
+              "label": "Expenses.doc",
+              "data": [
+                {
+                  "title": "文件信息",
+                  "content": "3"
+                },
+                {
+                  "title": "代码审查",
+                  "content": "请选择文件"
+                },
+                {
+                  "title": "代码优化",
+                  "content": "请选择文件"
+                },
+                {
+                  "title": "代码分析",
+                  "content": "请选择文件"
+                }
+              ]
+            },
+            {
+              "key": "0-0-1",
+              "label": "Resume.doc",
+              "data": "Resume Document"
+            }
+          ]
+        },
+        {
+          "key": "0-1",
+          "label": "Home",
+          "data": [
+            {
+              "title": "文件信息",
+              "content": "3"
+            },
+            {
+              "title": "代码审查",
+              "content": "请选择文件"
+            },
+            {
+              "title": "代码优化",
+              "content": "请选择文件"
+            },
+            {
+              "title": "代码分析",
+              "content": "请选择文件"
+            }
+          ],
+          "children": [
+            {
+              "key": "0-1-0",
+              "label": "Invoices.txt",
+              "data": "Invoices for this month"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "1",
+      "label": "Events",
+      "data": [
+        {
+          "title": "文件信息",
+          "content": "2"
+        },
+        {
+          "title": "代码审查",
+          "content": "请选择文件"
+        },
+        {
+          "title": "代码优化",
+          "content": "请选择文件"
+        },
+        {
+          "title": "代码分析",
+          "content": "请选择文件"
+        }
+      ],
+      "children": [
+        {
+          "key": "1-0",
+          "label": "Meeting",
+          "data": [
+            {
+              "title": "文件信息",
+              "content": "2"
+            },
+            {
+              "title": "代码审查",
+              "content": "请选择文件"
+            },
+            {
+              "title": "代码优化",
+              "content": "请选择文件"
+            },
+            {
+              "title": "代码分析",
+              "content": "请选择文件"
+            }
+          ]
+        },
+        {
+          "key": "1-1",
+          "label": "Product Launch",
+          "data": "Product Launch"
+        },
+        {
+          "key": "1-2",
+          "label": "Report Review",
+          "data": "Report Review"
+        }
+      ]
+    },
+    {
+      "key": "2",
+      "label": "Movies",
+      "data": [
+        {
+          "title": "文件信息",
+          "content": "2"
+        }
+      ],
+      "children": [
+        {
+          "key": "2-0",
+          "label": "Al Pacino",
+          "data": [
+            {
+              "title": "文件信息",
+              "content": "2"
+            },
+            {
+              "title": "代码审查",
+              "content": "请选择文件"
+            },
+            {
+              "title": "代码优化",
+              "content": "请选择文件"
+            },
+            {
+              "title": "代码分析",
+              "content": "请选择文件"
+            }
+          ],
+          "children": [
+            {
+              "key": "2-0-0",
+              "label": "Scarface",
+              "data": [
+                {
+                  "title": "文件信息",
+                  "content": "2"
+                },
+                {
+                  "title": "代码审查",
+                  "content": "请选择文件"
+                },
+                {
+                  "title": "代码优化",
+                  "content": "请选择文件"
+                },
+                {
+                  "title": "代码分析",
+                  "content": "请选择文件"
+                }
+              ]
+            },
+            {
+              "key": "2-0-1",
+              "label": "Serpico",
+              "data": [
+                {
+                  "title": "文件信息",
+                  "content": "2"
+                },
+                {
+                  "title": "代码审查",
+                  "content": "请选择文件"
+                },
+                {
+                  "title": "代码优化",
+                  "content": "请选择文件"
+                },
+                {
+                  "title": "代码分析",
+                  "content": "请选择文件"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "2-1",
+          "label": "Robert De Niro",
+          "data": [
+            {
+              "title": "文件信息",
+              "content": "2"
+            }
+          ],
+          "children": [
+            {
+              "key": "2-1-0",
+              "label": "Goodfellas",
+              "data": [
+                {
+                  "title": "文件信息",
+                  "content": "2"
+                }
+              ]
+            },
+            {
+              "key": "2-1-1",
+              "label": "Untouchables",
+              "data": [
+                {
+                  "title": "文件信息",
+                  "content": "2"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
