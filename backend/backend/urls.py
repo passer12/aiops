@@ -18,13 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import HttpResponse
 import djoser
-import api
 from gitRepo import views
 from datetime import datetime
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-router = DefaultRouter()
-router.register(r'repos', views.RepoViewSet)
+# router = DefaultRouter()
+# router.register(r'repos', views.RepoViewSet)   序列化器中的方式 有些复杂考虑废弃
 
 
 def index(request):
@@ -32,11 +32,21 @@ def index(request):
     return HttpResponse(f"Hello, world. You're at the backend index. <p>now is {now_time}</p>")
 
 
+def tokentest(request):
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    print(user, token)
+    print(user.repos__set.all())
+    print(request.user)
+    return HttpResponse("hello")
+
+
 urlpatterns = [
     path('', index, name='index'),
     path('admin/', admin.site.urls),
     path('api/', include('djoser.urls'), name='djoserApi'),
     path('api/', include('djoser.urls.jwt'), name='djoserJWT'),
-    path('api/', include(router.urls))
+    # path('api/', include(router.urls)),
+    path('api/repos/', include('gitRepo.urls')),
     
 ]

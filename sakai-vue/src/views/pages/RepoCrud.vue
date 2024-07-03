@@ -4,6 +4,10 @@ import { ref, onMounted, onBeforeMount } from 'vue';
 import { ProductService } from '@/service/ProductService';
 import { useToast } from 'primevue/usetoast';
 import axios from 'axios';
+// 假设你的JWT令牌存储在localStorage中
+const token = localStorage.getItem('token');
+// 设置默认的Authorization头，自动附带认证头
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 const toast = useToast();
 
@@ -49,6 +53,7 @@ const saveProduct = () => {
         username: localStorage.getItem('username'),
         Owner: 1
     };
+    console.log('formadata', formDate)
     axios
         .post('/api/repos/', formDate)
         .then((response) => {
@@ -75,8 +80,7 @@ const updateProduct = () => {
     const formDate = {
         Name: product.value.name,
         Description: product.value.description,
-        Link: product.value.Link,
-        username: localStorage.getItem('username')
+        Link: product.value.Link
     };
     axios
         .patch('/api/repos/' + product.value.RepositoryID + '/', formDate)
@@ -85,12 +89,12 @@ const updateProduct = () => {
             toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
             productDialog.value = false;
             product.value = {};
+            location.reload();
         })
         .catch((error) => {
             console.log(error);
-            toast.add({ severity: 'error', summary: 'Error', detail: 'Product not Created', life: 3000 });
+            toast.add({ severity: 'error', summary: 'Error', detail: error.response.data, life: 3000 });
         });
-    location.reload();
 };
 const confirmDeleteProduct = (editProduct) => {
     product.value = editProduct;

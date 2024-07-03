@@ -35,6 +35,14 @@ const register_send = () => {
         })
         .catch(function (error) {
             console.log(error);
+            let errorMessages = [];
+            let error_data = error.response.data;
+            for (let key in error_data) {
+                if (error_data.hasOwnProperty(key)) {
+                    errorMessages.push(`${key}: ${error_data[key].join(", ")}`);
+                }
+            }
+            alert(errorMessages.join("\n"));
         });
 };
 </script>
