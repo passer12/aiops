@@ -93,6 +93,32 @@ def generate_target_repos_json(request):
         print(f"Error: {e}")
         return JsonResponse({'error': 'Internal server error.'}, status=500)
 
+def View_target_repos_json(request):
+    target_repo_url = request.GET.get('repo_url', '')
+    Owner_id = request.GET.get('Owner', '')
+    
+    try:
+        target_owner = User.objects.get(id=Owner_id)
+        print(f"Target Owner: {target_owner}")
+    except User.DoesNotExist:
+        print(f"Owner with id {Owner_id} does not exist.")
+        return JsonResponse({'error': 'Owner does not exist.'}, status=400)
+    
+    try:
+        with transaction.atomic():
+            try:
+                repo = Repository.objects.get(Link=target_repo_url, Owner=target_owner)
+                print(f"Repository found: {repo}")
+            except Repository.DoesNotExist:
+                print("Repository does not exist, evaluating repo...")
+                return JsonResponse({'error': 'Reponsitory does not exist.'}, status=400)
+            
+            json_output = generate_repo_json(repo)
+
+            return JsonResponse(json_output, safe=False)
+    except Exception as e:
+        print(f"Error: {e}")
+        return JsonResponse({'error': 'Internal server error.'}, status=500)
 
 
 # # 更新指定仓库的JSON
