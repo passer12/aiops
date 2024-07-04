@@ -31,6 +31,7 @@ const register_send = () => {
         .post('/api/users/', formDate)
         .then(function (response) {
             console.log(response);
+            new_user_profile();
             window.location.href = '/auth/login';
         })
         .catch(function (error) {

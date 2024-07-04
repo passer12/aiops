@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'djoser',
-    'gitRepo'
+    'gitRepo',
+    'user_profile'  # 处理用户的profile信息配置
 ]
 
 MIDDLEWARE = [
@@ -174,3 +176,8 @@ SIMPLE_JWT = {
 
 # 允许结尾不是斜杠，但是貌似不管用
 # APPEND_SLASH = False
+
+# 上传头像，配置这东西是为了尽力保持安全性，gpt生成
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+

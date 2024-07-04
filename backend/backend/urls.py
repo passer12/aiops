@@ -22,7 +22,8 @@ from gitRepo import views
 from datetime import datetime
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+from django.conf import settings
+from django.conf.urls.static import static
 # router = DefaultRouter()
 # router.register(r'repos', views.RepoViewSet)   序列化器中的方式 有些复杂考虑废弃
 
@@ -48,5 +49,5 @@ urlpatterns = [
     path('api/', include('djoser.urls.jwt'), name='djoserJWT'),  # jwt token相关路由，用来维持用户状态，就是cookie
     # path('api/', include(router.urls)),
     path('api/repos/', include('gitRepo.urls')),              # gitrepo数据库增删改查路由
-    
-]
+    path('api/profile/', include('user_profile.urls')),        # 用户信息相关路由
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
