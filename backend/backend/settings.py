@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-&h$j6(qw!um%1tzdkfe)k5s6@*t%w=u@ufa0l%$#+990widgll
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1']
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'gitRepo',
-    'user_profile'  # 处理用户的profile信息配置
+    'user_profile',  # 处理用户的profile信息配置
+    'sparkAPI'
 ]
 
 MIDDLEWARE = [

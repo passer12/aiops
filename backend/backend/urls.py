@@ -50,4 +50,5 @@ urlpatterns = [
     # path('api/', include(router.urls)),
     path('api/repos/', include('gitRepo.urls')),              # gitrepo数据库增删改查路由
     path('api/profile/', include('user_profile.urls')),        # 用户信息相关路由
+    path('api/spark/', include('sparkAPI.urls')),             # spark相关路由
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
