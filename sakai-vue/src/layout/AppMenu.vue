@@ -6,12 +6,23 @@ import AppMenuItem from './AppMenuItem.vue';
 const model = ref([
     {
         label: 'Home',
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }]
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '' }]
+    },
+    {
+        label: '评估结果',
+        items: [{ label: '最近记录', icon: 'pi pi-fw pi-home', to: '/dashboard',
+            items:[
+            { label: 'repo1', icon: 'pi pi-fw pi-home', to: { path: '/dashboard', query: { repo: 'repo1' } } },
+            { label: 'repo2', icon: 'pi pi-fw pi-home', to: { path: '/dashboard', query: { repo: 'repo2' } } },
+            { label: 'repo3', icon: 'pi pi-fw pi-home', to: { path: '/dashboard', query: { repo: 'repo3' } } }
+        ]}]
     },
     {
         label: '个人仓库',
-        items: [{ label: '管理仓库', icon: 'pi pi-fw pi-id-card', to: '/pages/RepoCrud' },
-                { label: '你的仓库', icon: 'pi pi-fw pi-id-card', to: '/pages/repolist' }],
+        items: [
+            { label: '管理仓库', icon: 'pi pi-fw pi-id-card', to: '/pages/RepoCrud' },
+            { label: '你的仓库', icon: 'pi pi-fw pi-id-card', to: '/pages/repolist' }
+        ]
     },
     {
         label: '个人资料',

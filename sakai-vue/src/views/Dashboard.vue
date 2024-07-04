@@ -5,7 +5,7 @@ import { useLayout } from '@/layout/composables/layout';
 import Breadcrumb from 'primevue/breadcrumb';
 
 import Rating_tag from '@/views/utilities/rating_tag.vue';
-import Evaluate from "@/views/frontend/Evaluate.vue";
+import Evaluate from '@/views/frontend/Evaluate.vue';
 const { isDarkTheme } = useLayout();
 const status = ref(null);
 status.value = { repo_num: 10 };
@@ -96,14 +96,15 @@ watch(
 
 // breadcrumb区域
 const home = ref({
-    icon: 'pi pi-home'
+    icon: 'pi pi-home',
+    to: '/pages/profile'
 });
-const reponame = ref(window.localStorage.getItem('repo_name')? window.localStorage.getItem('repo_name'):'examplerepo');
-const items = ref([{ label: window.localStorage.getItem('username') },
-  { label: reponame, }]); //
-
+const reponame = ref(window.localStorage.getItem('repo_name') ? window.localStorage.getItem('repo_name') : 'examplerepo');
+const items = ref([{ label: window.localStorage.getItem('username'), url: '/pages/profile' }, { label: reponame }]); //
 </script>
 <template>
+    <!--  仅限填充作用-->
+    <div hidden>{{ (items[1].label = $route.query.repo) }}</div>
     <Breadcrumb :home="home" :model="items" />
     <p></p>
     <div class="card">
@@ -114,7 +115,9 @@ const items = ref([{ label: window.localStorage.getItem('username') },
                         <div class="card mb-0">
                             <div class="flex justify-content-between mb-3">
                                 <div>
-                                    <span class="block text-500 font-medium mb-3">{{ rate.label }}</span>
+                                    <router-link :to="{ name: 'rating_detail' }" class="block text-500 font-medium mb-3">
+                                        {{ rate.label }}
+                                    </router-link>
                                     <div class="text-900 font-medium text-xl">{{ rate.value }}</div>
                                 </div>
                                 <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width: 2.5rem; height: 2.5rem">

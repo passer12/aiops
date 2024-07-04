@@ -169,6 +169,11 @@ const router = createRouter({
                     component: () => import('@/views/frontend/Evaluate.vue')
                 },
                 {
+                    path: '/pages/rating_detail',
+                    name: 'rating_detail',
+                    component: () => import('@/views/pages/rating_detail.vue')
+                },
+                {
                     path: '/documentation',
                     name: 'documentation',
                     component: () => import('@/views/utilities/Documentation.vue')

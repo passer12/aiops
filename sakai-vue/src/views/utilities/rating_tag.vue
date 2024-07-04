@@ -9,6 +9,6 @@ console.log(props.rate)
 <template>
     <Tag v-if="rate > 0.8" icon="pi pi-check" severity="success" value="很好"></Tag>
     <Tag v-else-if="rate > 0.6" icon="pi pi-info-circle" severity="info" value="好"></Tag>
-    <Tag v-else-if="rate > 0.4" icon="pi pi-exclamation-triangle" severity="warn" value="差"></Tag>
+    <Tag v-else-if="rate > 0.4" icon="pi pi-exclamation-triangle" severity="warning" value="差"></Tag>
     <Tag v-else icon="pi pi-times" severity="danger" value="极差"></Tag>
 </template>
