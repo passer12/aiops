@@ -72,10 +72,9 @@ def generate_target_repos_json_secure(request):
         return JsonResponse({'error': 'Invalid token'}, status=401)
     
     Owner_id = user.id
+    access_token = user.profile.access_token
     
     target_repo_url = request.GET.get('repo_url', '')
-    Owner_id = request.GET.get('Owner', '')
-    access_token = request.GET.get('access_token', '')
     
     try:
         target_owner = User.objects.get(id=Owner_id)
