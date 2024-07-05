@@ -100,3 +100,19 @@ def repos_detail(request, repo_id):
 
         except Repository.DoesNotExist:
             return JsonResponse({'error': 'Repository not found'}, status=404)
+
+
+# 返回用户的操作记录
+@api_view(['GET'])
+def UserActionList(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+
+    if not user:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+
+    # 获取用户的所有操作记录
+    user_actions = user.actions.values()
+
+    return JsonResponse(list(user_actions), safe=False)

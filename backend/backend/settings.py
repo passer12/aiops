@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'djoser',
     'gitRepo',
     'user_profile',  # 处理用户的profile信息配置
-    'sparkAPI'
+    'sparkAPI',
+    'simple_history',  # 记录用户操作记录的
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'gitRepo.middleware.UserActionMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -90,7 +92,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'sakai',
+        'NAME': 'sakai.sqlite3',
         # 'USER': 'root',
         # 'PASSWORD': '123456',
         # 'HOST': 'localhost',

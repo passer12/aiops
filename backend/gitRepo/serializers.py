@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Repository
+from .models import Repository,UserAction
 from django.contrib.auth.models import User
 
 
@@ -13,15 +13,8 @@ class RepositorySerializer(serializers.ModelSerializer):
         model = Repository
         fields = '__all__'
 
-    # def create(self, validated_data):
-    #     username = validated_data.pop('username', None)
-    #     if username:
-    #         try:
-    #             user = User.objects.get(username=username)
-    #         except User.DoesNotExist:
-    #             raise serializers.ValidationError(f'User with username {username} does not exist')
-    #         validated_data['Owner'] = user
-    #     else:
-    #         raise serializers.ValidationError('Username is required')
-    #
-    #     return super().create(validated_data)
+
+class UserActionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAction
+        fields = '__all__'

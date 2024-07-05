@@ -2,7 +2,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 # 定义的仓库数据库
 class Repository(models.Model):
     RepositoryID = models.AutoField(primary_key=True)
@@ -15,3 +14,15 @@ class Repository(models.Model):
 
     def __str__(self):
         return self.Name
+
+
+# 记录用户行为
+class UserAction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='actions')
+    action = models.CharField(max_length=255)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'user_action'
+    def __str__(self):
+        return f"{self.user.username} - {self.action} at {self.timestamp}"

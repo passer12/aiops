@@ -44,5 +44,7 @@ class UserProfile(models.Model):
     Owner = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='所属用户',
                                  related_name='profile')  # 一对一字段用户
     access_token = models.CharField(max_length=255, verbose_name='访问令牌', null=True, blank=True)
+
     class Meta:
         db_table = 'user_profile'
+
