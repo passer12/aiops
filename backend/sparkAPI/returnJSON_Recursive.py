@@ -92,6 +92,52 @@ def evaluate_repo(repo_url, access_token, Owner_id):
         target_owner = User.objects.get(id=Owner_id)
         print(f"Target Owner in evaluate_repo: {target_owner}")
 
+        # 查找仓库数据库对象
+        repo_object = Repository.objects.get(
+            Link=repo_url,
+            Owner=target_owner
+        )
+        print(f"Repository found: {repo_object}")
+        
+        if repo_object:
+            # 删除旧的评估数据
+            TreeNode.objects.filter(repo=repo_object).delete()
+            NodeData.objects.filter(node__repo=repo_object).delete()
+
+        # 评估并存储仓库相关信息
+        evaluate_store_repo(repo, repo_object)
+
+        return repo_object
+    except User.DoesNotExist:
+        print(f"Error: User with id {Owner_id} does not exist.")
+        return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+    
+    
+@transaction.atomic
+def create_evaluate_repo(repo_url, access_token, Owner_id):
+    try:
+        # 从URL中提取用户名和仓库名
+        parts = repo_url.strip().split('/')
+        user, repo_name = parts[-2], parts[-1]
+
+        # 使用访问令牌进行身份验证
+        g = Github(access_token)
+
+        # 获取仓库对象
+        repo = g.get_user(user).get_repo(repo_name)
+
+        # 不存在/无法获取仓库对象
+        if not repo:
+            print(f"Repo {repo_name} for user {user} not found.")
+            return None
+        
+        # 获取目标用户对象
+        target_owner = User.objects.get(id=Owner_id)
+        print(f"Target Owner in evaluate_repo: {target_owner}")
+
         # 存储仓库数据库对象
         repo_object = Repository.objects.create(
             Name=f"{user}/{repo_name}",
