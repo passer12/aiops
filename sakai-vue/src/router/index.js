@@ -174,6 +174,16 @@ const router = createRouter({
                     component: () => import('@/views/pages/Chat.vue')
                 },
                 {
+                    path: '/pages/history',
+                    name: 'chat',
+                    component: () => import('@/views/pages/history/history.vue')
+                },
+                {
+                    path: '/pages/config',
+                    name: 'config',
+                    component: () => import('@/views/pages/config.vue')
+                },
+                {
                     path: '/documentation',
                     name: 'documentation',
                     component: () => import('@/views/sakai/utilities/Documentation.vue')
