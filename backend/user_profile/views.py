@@ -16,7 +16,7 @@ def profile(request):
     if user is None:
         return JsonResponse({'error': 'Invalid token'}, status=401)
 
-        # 假设用户已经通过身份验证，现在可以获取用户的配置信息
+    # 假设用户已经通过身份验证，现在可以获取用户的配置信息
     if request.method == 'GET':
         try:
             # 获取用户的所有仓库
