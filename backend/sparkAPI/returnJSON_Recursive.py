@@ -7,7 +7,7 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 sys.path.append(parent_dir)
 import IntelligentOps.IntelligentOps as intOps
 
-from sparkAPI.models import Repo, TreeNode, NodeData 
+from sparkAPI.models import TreeNode, NodeData 
 from gitRepo.models import Repository
 from django.contrib.auth.models import User
 
@@ -18,10 +18,12 @@ spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
 os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
 os.environ["HTTPS_PROXY"] = "127.0.0.1:7890"
 
+# 评估文件内容
 def evaluate_file(file_content):
     report = spark_aiOps.quality_issues_suggestions(file_content)
     return report
 
+# 递归评估并存储仓库相关信息
 def evaluate_store_repo(repo, repo_object, parent_node=None, path=""):
     print("evaluate_store_repo called with path:", path)
     try:
@@ -67,9 +69,7 @@ def evaluate_store_repo(repo, repo_object, parent_node=None, path=""):
 
     return True
 
-from django.db import transaction
-from github import Github
-
+# 评估并存储仓库相关信息（针对该仓库生成评估信息）
 @transaction.atomic
 def evaluate_repo(repo_url, access_token, Owner_id):
     try:
@@ -115,7 +115,8 @@ def evaluate_repo(repo_url, access_token, Owner_id):
         print(f"Error: {e}")
         return None
     
-    
+
+# 创建并评估仓库相关信息（创建仓库并生成评估信息）
 @transaction.atomic
 def create_evaluate_repo(repo_url, access_token, Owner_id):
     try:
