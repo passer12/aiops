@@ -103,8 +103,10 @@ const reponame = ref(window.localStorage.getItem('repo_name') ? window.localStor
 const items = ref([{ label: window.localStorage.getItem('username'), url: '/pages/profile' }, { label: reponame }]); //
 </script>
 <template>
-    <!--  仅限填充作用-->
-    <div hidden>{{ (items[1].label = $route.query.repo) }}</div>
+    <!--  仅限填充作用，逆天代码-->
+    <div hidden>{{
+          items[1].label = $route.query.repo?$route.query.repo:items[1].label
+      }}</div>
     <Breadcrumb :home="home" :model="items" />
     <p></p>
     <div class="card">
