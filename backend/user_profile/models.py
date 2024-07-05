@@ -43,7 +43,6 @@ class UserProfile(models.Model):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name='创建时间')
     Owner = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name='所属用户',
                                  related_name='profile')  # 一对一字段用户
-    access_token = models.CharField(max_length=255, verbose_name='访问令牌', null=True, blank=True) # 用于访问github仓库
-
+    access_token = models.CharField(max_length=255, verbose_name='访问令牌', null=True, blank=True)
     class Meta:
         db_table = 'user_profile'
