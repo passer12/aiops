@@ -17,6 +17,7 @@ class SparkAPI:
         self.__app_id = app_id
         self.__api_key = api_key
         self.__api_secret = api_secret
+        self.__history = []
         # 配置版本
         if version is not None and is_support_version(version):
             self.__set_version(version)
@@ -214,3 +215,27 @@ class SparkAPI:
                 print(e)
         finally:
             print("\nThank you for using the SparkDesk AI. Welcome to use it again!")
+    
+    def chat_stream_api(self, query):
+        try:
+            return_response = []
+            for response, _ in self.__streaming_output(query, self.__history):
+                return_response.append(response)
+            return return_response[-1]
+        except BaseException as e:
+            if isinstance(e, KeyboardInterrupt):
+                print(e)
+
+app_id="e8bd2492"
+api_secret="MGY1MjIzMDk1MTQ4Y2U1YzUxMWI5Yzk1"
+api_key="28b98e55ec8e83daddf1e591952e2614"
+
+if __name__ == '__main__':
+    test_ai = SparkAPI(
+        app_id=app_id,
+        api_secret=api_secret,
+        api_key=api_key
+    )
+    print(test_ai.chat_stream_api("我叫小明，今年18岁了。"))
+    print(test_ai.chat_stream_api("我叫什么，今年多少岁了？"))
+    

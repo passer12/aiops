@@ -13,7 +13,7 @@ class TreeNode(models.Model):
         unique_together = ('repo', 'key')
 
     def __str__(self):
-        return f"{self.repo.name} - {self.label}"
+        return f"{self.repo.Name} - {self.label}"
 
 
 class NodeData(models.Model):

@@ -20,7 +20,7 @@ onMounted(() => {
 
 const evaluate_request = (repo) => {
     console.log('评估请求');
-    alert('评估一波,导到一个等待界面');
+    alert('正在评估，请稍后...');
 
     // 参数
     const repo_url = repo.Link;

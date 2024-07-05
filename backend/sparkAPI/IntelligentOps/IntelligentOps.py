@@ -113,7 +113,7 @@ class IntelligentOps:
         evaluation_report = self.evaluate_code_quality(code)
         issues = self.analyze_code_issues(code)
         optimization_suggestions = self.generate_suggestions(code, issues)
-        output_result = "Evaluation Report: \n" + evaluation_report + "\n\n" + "Issues: \n" + issues + "\n\n" + "Optimization Suggestions: \n" + optimization_suggestions
+        # output_result = "Evaluation Report: \n" + evaluation_report + "\n\n" + "Issues: \n" + issues + "\n\n" + "Optimization Suggestions: \n" + optimization_suggestions
         output_result_dict = {"file_info":str(file_info), "quality": str(evaluation_report), "issues": str(issues), "suggestions": str(optimization_suggestions)}
         return output_result_dict
 
