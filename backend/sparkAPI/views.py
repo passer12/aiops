@@ -138,8 +138,8 @@ def view_target_repos_json_secure(request):
                 return JsonResponse({'error': 'Reponsitory does not exist.'}, status=400)
             
             json_output = generate_repo_json(repo)
-            print(json_output)
-            return JsonResponse(json_output, safe=False)
+            print(json.loads(json_output))
+            return JsonResponse(json.loads(json_output), safe=False)
     except Exception as e:
         print(f"Error: {e}")
         return JsonResponse({'error': 'Internal server error.'}, status=500)
