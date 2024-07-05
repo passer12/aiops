@@ -31,7 +31,6 @@ const register_send = () => {
         .post('/api/users/', formDate)
         .then(function (response) {
             console.log(response);
-            new_user_profile();
             window.location.href = '/auth/login';
         })
         .catch(function (error) {
@@ -40,10 +39,10 @@ const register_send = () => {
             let error_data = error.response.data;
             for (let key in error_data) {
                 if (error_data.hasOwnProperty(key)) {
-                    errorMessages.push(`${key}: ${error_data[key].join(", ")}`);
+                    errorMessages.push(`${key}: ${error_data[key].join(', ')}`);
                 }
             }
-            alert(errorMessages.join("\n"));
+            alert(errorMessages.join('\n'));
         });
 };
 </script>
