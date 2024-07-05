@@ -1,6 +1,10 @@
 <script>
 import Filetree from './components/tree.vue';
 import Tableview from './components/Tableview.vue';
+import axios from 'axios';
+const token = localStorage.getItem('token');
+// 设置默认的Authorization头，自动附带认证头
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 export default {
     name: 'evaluate',
@@ -13,16 +17,23 @@ import { onMounted } from 'vue';
 
 const fileinfo = ref(null);
 const selectedNode = ref(null); //选中的node
-
+// const props = defineProps(['repo_info']);
+const repo_url = window.localStorage.getItem('repo_url');
+const repo_name = window.localStorage.getItem('repo_name');
 const fetchFileInfo = async () => {
-    try {
-        const response = await fetch('/demo/data/treenodes.json');
-        const data = await response.json();
-        console.log('data', data);
-        fileinfo.value = data.root;
-    } catch (error) {
-        console.error('Error fetching file info:', error);
-    }
+    console.log('repo_info', repo_name);
+    axios
+        .get('/api/spark/view_repo_json_secure/', {
+            params: {
+                repo_url: repo_url
+            }
+        })
+        .then((response) => {
+            fileinfo.value = response.data.root;
+        })
+        .catch((error) => {
+            console.error('Error fetching file info:', error);
+        });
 };
 // fetchFileInfo();
 
@@ -40,7 +51,7 @@ const handleNodeSelected = (node) => {
 <template>
     <div class="evaluate-container">
         <div class="info-container">
-            <p v-if="selectedNode">当前选中文件为：{{ selectedNode.label }}</p>
+            <p v-if="selectedNode">当前选中文件为：{{ selectedNode.key }}</p>
             <p v-else>请选择一个文件</p>
         </div>
         <div class="main-container">
