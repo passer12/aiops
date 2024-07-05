@@ -36,7 +36,8 @@ def profile(request):
                                 'email': profile_data['email'],
                                 'description': profile_data['description'],
                                 'link': profile_data['Link'],
-                                'Owner': user.pk}
+                                'Owner': user.pk,
+                                'access_token': profile_data['access_token']}
             # 为repo_data添加一个Owner字段,但是由于他是QueryDick类型，所以不能直接添加
             # print(repo_data)
             profile_serializer = ProfileSerializer(data=new_profile_data)

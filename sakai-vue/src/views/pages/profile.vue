@@ -51,7 +51,8 @@ const saveProfile = () => {
     const formDate = {
         email: userprofile_copy.value.email,
         description: userprofile_copy.value.description,
-        link: userprofile_copy.value.link
+        link: userprofile_copy.value.link,
+        access_token: userprofile_copy.value.access_token
     };
     axios
         .patch('/api/profile/', formDate)
@@ -118,6 +119,10 @@ const saveProfile = () => {
         <div class="field">
             <label for="Link">Url link</label>
             <Textarea id="Link" v-model="userprofile_copy.link" required="true" rows="3" cols="20" />
+        </div>
+        <div class="field">
+            <label for="Token">github token</label>
+            <Textarea id="Token" v-model="userprofile_copy.access_token" required="true" rows="3" cols="20" />
         </div>
         <template #footer>
             <Button label="Cancel" icon="pi pi-times" text="" @click="hideDialog" />

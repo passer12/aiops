@@ -3,37 +3,34 @@ import Card from 'primevue/card';
 import {onMounted, ref} from 'vue';
 import { ProductService } from '@/service/ProductService';
 import  Tag from 'primevue/tag';
+import axios from 'axios';
 const productService = new ProductService();
 const repos_list = ref(null);
+
+// 假设你的JWT令牌存储在localStorage中
+const token = localStorage.getItem('token');
+// 设置默认的Authorization头，自动附带认证头
+axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 onMounted(() => {
     productService.getProducts().then(data => {
         repos_list.value = data;
     });
 });
-// const evaluate_request = (repo) => {
-//     repo.Link = 0; //后端不完备，暂时出此下策
-//     console.log('评估请求');
-//     alert("评估一波,导到一个等待界面")
-// };
 
 const evaluate_request = (repo) => {
-    repo.Link = 0; // 后端不完备，暂时出此下策
     console.log('评估请求');
     alert("评估一波,导到一个等待界面");
 
     // 参数
-    const owner = repo.owner;
-    const repo_url = repo.repo_url;
+    const repo_url = repo.Link;
+    // 输出repo_url
+    console.log('repo:', repo);
 
-    const access_token = "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";
-
-    // 发起GET请求到后端代理端点
-    axios.get('/api/proxy/generate_repo_json', {
+    // 发起GET请求到后端
+    axios.get('/api/spark/generate_repo_json_secure', {
         params: {
-            owner: owner,
-            repo_url: repo_url,
-            access_token: access_token
+            repo_url: repo_url
         }
     })
     .then(response => {

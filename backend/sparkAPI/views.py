@@ -62,7 +62,7 @@ from django.http import JsonResponse
 from github import Github
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def generate_target_repos_json_secure(request):
     # 验证JWT令牌，考虑在每一个请求前都加上这个验证
     jwt_authenticator = JWTAuthentication()
@@ -86,24 +86,63 @@ def generate_target_repos_json_secure(request):
     try:
         with transaction.atomic():
             try:
+                # 已经存在，重新生成
                 repo = Repository.objects.get(Link=target_repo_url, Owner=target_owner)
                 print(f"Repository found: {repo}")
-            except Repository.DoesNotExist:
-                print("Repository does not exist, evaluating repo...")
                 repo = returnJSON_Recursive.evaluate_repo(target_repo_url, access_token, Owner_id)
+            except Repository.DoesNotExist:
+                # 不存在，创建并生成
+                print("Repository does not exist, evaluating repo...")
+                repo = returnJSON_Recursive.create_evaluate_repo(target_repo_url, access_token, Owner_id)
                 if not repo:
                     print(f"Evaluation failed for repo_url {target_repo_url} and Owner_id {Owner_id}")
                     return JsonResponse({'error': 'repo_url is invalid or Owner does not exist.'}, status=400)
                 print(f"Newly created repository: {repo}")
             
             json_output = generate_repo_json(repo)
-
+            print(json_output)
             return JsonResponse(json_output, safe=False)
     except Exception as e:
         print(f"Error: {e}")
         return JsonResponse({'error': 'Internal server error.'}, status=500)
 
-
+@api_view(['GET'])
+def view_target_repos_json_secure(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    
+    if user is None:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+    Owner_id = user.id
+    access_token = user.profile.access_token
+    
+    target_repo_url = request.GET.get('repo_url', '')
+    
+    try:
+        target_owner = User.objects.get(id=Owner_id)
+        print(f"Target Owner: {target_owner}")
+    except User.DoesNotExist:
+        print(f"Owner with id {Owner_id} does not exist.")
+        return JsonResponse({'error': 'Owner does not exist.'}, status=400)
+    
+    try:
+        with transaction.atomic():
+            try:
+                # 已经存在，直接查询数据库生成json
+                repo = Repository.objects.get(Link=target_repo_url, Owner=target_owner)
+                print(f"Repository found: {repo}")
+            except Repository.DoesNotExist:
+                print("Repository does not exist, evaluating repo...")
+                return JsonResponse({'error': 'Reponsitory does not exist.'}, status=400)
+            
+            json_output = generate_repo_json(repo)
+            print(json_output)
+            return JsonResponse(json_output, safe=False)
+    except Exception as e:
+        print(f"Error: {e}")
+        return JsonResponse({'error': 'Internal server error.'}, status=500)
 
 
 def generate_target_repos_json(request):
@@ -123,9 +162,10 @@ def generate_target_repos_json(request):
             try:
                 repo = Repository.objects.get(Link=target_repo_url, Owner=target_owner)
                 print(f"Repository found: {repo}")
+                repo = returnJSON_Recursive.evaluate_repo(target_repo_url, access_token, Owner_id)
             except Repository.DoesNotExist:
                 print("Repository does not exist, evaluating repo...")
-                repo = returnJSON_Recursive.evaluate_repo(target_repo_url, access_token, Owner_id)
+                repo = returnJSON_Recursive.create_evaluate_repo(target_repo_url, access_token, Owner_id)
                 if not repo:
                     print(f"Evaluation failed for repo_url {target_repo_url} and Owner_id {Owner_id}")
                     return JsonResponse({'error': 'repo_url is invalid or Owner does not exist.'}, status=400)
