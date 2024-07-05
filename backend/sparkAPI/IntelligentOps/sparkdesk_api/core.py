@@ -9,9 +9,10 @@ from sparkdesk_api.utils import get_prompt, process_response, is_support_version
 
 
 class SparkAPI:
-    __api_url = 'wss://spark-api.xf-yun.com/v3.5/chat'  # 默认为3.0版本
+    __api_url = 'wss://spark-api.xf-yun.com/v3.5/chat'  # 默认为Spark Max
     __domain = 'generalv3.5'
-    __max_token = 2048
+    __max_token = 4096 # 取值为[1,8192]，默认为4096。 模型回答的tokens的最大长度
+    __temperature = 0.5  # 取值为(0.0,1.0]，默认为0.5。 核采样阈值。用于决定结果随机性，取值越高随机性越强即相同的问题得到的不同答案的可能性越高
 
     def __init__(self, app_id, api_key, api_secret, version=None, assistant_id=None):
         self.__app_id = app_id
@@ -28,19 +29,26 @@ class SparkAPI:
             self.__domain = 'general'
 
     def __set_version(self, version):
-        # 讯飞v1.0
+        # Spark Lite
         if version == 1.1:
             self.__api_url = 'wss://spark-api.xf-yun.com/v1.1/chat'
             self.__domain = 'general'
-        # 讯飞v2.0
+        # Spark V2.0
         elif version == 2.1:
             self.__api_url = 'wss://spark-api.xf-yun.com/v2.1/chat'
             self.__domain = 'generalv2'
+        # Spark Pro
         elif version == 3.1:
             self.__api_url = 'wss://spark-api.xf-yun.com/v3.1/chat'
             self.__domain = 'generalv3'
+        # Spark Max
         elif version == 3.5:
-            return
+            self.__api_url = 'wss://spark-api.xf-yun.com/v3.5/chat'
+            self.__domain = 'generalv3.5'
+        # Spark Ultra
+        elif version == 4.0:
+            self.__api_url = 'wss://spark-api.xf-yun.com/v4.0/chat'
+            self.__domain = '4.0Ultra'
 
 
     def __set_max_tokens(self, token):
