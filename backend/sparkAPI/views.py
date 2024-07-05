@@ -6,10 +6,10 @@ import json
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 sys.path.append(parent_dir)
-from IntelligentOps import IntelligentOps as intOps
-
-code_analysis_tool = intOps.CodeAnalysisTool()
-spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
+# from IntelligentOps import IntelligentOps as intOps
+#
+# code_analysis_tool = intOps.CodeAnalysisTool()
+# spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
 
 import returnJSON_Recursive
 

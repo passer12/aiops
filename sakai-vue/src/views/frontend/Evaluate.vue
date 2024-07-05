@@ -38,7 +38,7 @@ const handleNodeSelected = (node) => {
 </script>
 
 <template>
-    <div class="App">
+    <div class="evaluate-container">
         <div class="info-container">
             <p v-if="selectedNode">当前选中文件为：{{ selectedNode.label }}</p>
             <p v-else>请选择一个文件</p>
@@ -55,7 +55,7 @@ const handleNodeSelected = (node) => {
 </template>
 
 <style>
-.App {
+.evaluate-container {
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -65,7 +65,7 @@ const handleNodeSelected = (node) => {
 }
 
 .info-container {
-    width: 90%;
+    width: 100%;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -75,8 +75,8 @@ const handleNodeSelected = (node) => {
 
 .main-container {
     display: flex;
-    width: 90%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

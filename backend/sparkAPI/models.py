@@ -40,6 +40,7 @@ class Repo(models.Model):
     def __str__(self):
         return self.name
 
+
 class TreeNode(models.Model):
     repo = models.ForeignKey(Repository, on_delete=models.CASCADE, related_name='nodes')
     key = models.CharField(max_length=100)
@@ -51,6 +52,7 @@ class TreeNode(models.Model):
 
     def __str__(self):
         return f"{self.repo.name} - {self.label}"
+
 
 class NodeData(models.Model):
     node = models.ForeignKey(TreeNode, on_delete=models.CASCADE, related_name='data')
