@@ -4,8 +4,8 @@ import axios from 'axios';
 import { useToast } from 'primevue/usetoast';
 import Avatar from 'primevue/avatar';
 import { ProductService } from '@/service/ProductService';
-import Avatar_upload from '@/views/pages/avatar_upload.vue';
-import Repolist from '@/views/pages/repolist.vue';
+import Avatar_upload from '@/views/pages/user/avatar_upload.vue';
+import Repolist from '@/views/pages/repo/Repolist.vue';
 const productService = new ProductService();
 
 const toast = useToast();

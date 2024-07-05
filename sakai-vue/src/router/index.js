@@ -6,11 +6,6 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/test1',
-            name: 'test1',
-            component: () => import('@/views/Test1.vue')
-        },
-        {
             path: '/dashboard',
             component: AppLayout,
             meta: { requiresAuth: true },
@@ -18,120 +13,120 @@ const router = createRouter({
                 {
                     path: '/dashboard',
                     name: 'dashboard',
-                    component: () => import('@/views/Dashboard.vue')
+                    component: () => import('@/views/sakai/Dashboard.vue')
                 },
                 {
                     path: '/uikit/result',
                     name: 'result',
-                    component: () => import('@/views/frontend/Evaluate.vue')
+                    component: () => import('@/views/pages/evaluation/Evaluate.vue')
                 },
                 {
                     path: '/uikit/formlayout',
                     name: 'formlayout',
-                    component: () => import('@/views/uikit/FormLayout.vue')
+                    component: () => import('@/views/sakai/uikit/FormLayout.vue')
                 },
                 {
                     path: '/uikit/input',
                     name: 'input',
-                    component: () => import('@/views/uikit/Input.vue')
+                    component: () => import('@/views/sakai/uikit/Input.vue')
                 },
                 {
                     path: '/uikit/floatlabel',
                     name: 'floatlabel',
-                    component: () => import('@/views/uikit/FloatLabel.vue')
+                    component: () => import('@/views/sakai/uikit/FloatLabel.vue')
                 },
                 {
                     path: '/uikit/invalidstate',
                     name: 'invalidstate',
-                    component: () => import('@/views/uikit/InvalidState.vue')
+                    component: () => import('@/views/sakai/uikit/InvalidState.vue')
                 },
                 {
                     path: '/uikit/button',
                     name: 'button',
-                    component: () => import('@/views/uikit/Button.vue')
+                    component: () => import('@/views/sakai/uikit/Button.vue')
                 },
                 {
                     path: '/uikit/table',
                     name: 'table',
-                    component: () => import('@/views/uikit/Table.vue')
+                    component: () => import('@/views/sakai/uikit/Table.vue')
                 },
                 {
                     path: '/uikit/list',
                     name: 'list',
-                    component: () => import('@/views/uikit/List.vue')
+                    component: () => import('@/views/sakai/uikit/List.vue')
                 },
                 {
                     path: '/uikit/tree',
                     name: 'tree',
-                    component: () => import('@/views/uikit/Tree.vue')
+                    component: () => import('@/views/sakai/uikit/Tree.vue')
                 },
                 {
                     path: '/uikit/panel',
                     name: 'panel',
-                    component: () => import('@/views/uikit/Panels.vue')
+                    component: () => import('@/views/sakai/uikit/Panels.vue')
                 },
 
                 {
                     path: '/uikit/overlay',
                     name: 'overlay',
-                    component: () => import('@/views/uikit/Overlay.vue')
+                    component: () => import('@/views/sakai/uikit/Overlay.vue')
                 },
                 {
                     path: '/uikit/media',
                     name: 'media',
-                    component: () => import('@/views/uikit/Media.vue')
+                    component: () => import('@/views/sakai/uikit/Media.vue')
                 },
                 {
                     path: '/uikit/menu',
-                    component: () => import('@/views/uikit/Menu.vue'),
+                    component: () => import('@/views/sakai/uikit/Menu.vue'),
                     children: [
                         {
                             path: '/uikit/menu',
-                            component: () => import('@/views/uikit/menu/PersonalDemo.vue')
+                            component: () => import('@/views/sakai/uikit/menu/PersonalDemo.vue')
                         },
                         {
                             path: '/uikit/menu/seat',
-                            component: () => import('@/views/uikit/menu/SeatDemo.vue')
+                            component: () => import('@/views/sakai/uikit/menu/SeatDemo.vue')
                         },
                         {
                             path: '/uikit/menu/payment',
-                            component: () => import('@/views/uikit/menu/PaymentDemo.vue')
+                            component: () => import('@/views/sakai/uikit/menu/PaymentDemo.vue')
                         },
                         {
                             path: '/uikit/menu/confirmation',
-                            component: () => import('@/views/uikit/menu/ConfirmationDemo.vue')
+                            component: () => import('@/views/sakai/uikit/menu/ConfirmationDemo.vue')
                         }
                     ]
                 },
                 {
                     path: '/uikit/message',
                     name: 'message',
-                    component: () => import('@/views/uikit/Messages.vue')
+                    component: () => import('@/views/sakai/uikit/Messages.vue')
                 },
                 {
                     path: '/uikit/file',
                     name: 'file',
-                    component: () => import('@/views/uikit/File.vue')
+                    component: () => import('@/views/sakai/uikit/File.vue')
                 },
                 {
                     path: '/uikit/charts',
                     name: 'charts',
-                    component: () => import('@/views/uikit/Chart.vue')
+                    component: () => import('@/views/sakai/uikit/Chart.vue')
                 },
                 {
                     path: '/uikit/misc',
                     name: 'misc',
-                    component: () => import('@/views/uikit/Misc.vue')
+                    component: () => import('@/views/sakai/uikit/Misc.vue')
                 },
                 {
                     path: '/blocks',
                     name: 'blocks',
-                    component: () => import('@/views/utilities/Blocks.vue')
+                    component: () => import('@/views/sakai/utilities/Blocks.vue')
                 },
                 {
                     path: '/utilities/icons',
                     name: 'icons',
-                    component: () => import('@/views/utilities/Icons.vue')
+                    component: () => import('@/views/sakai/utilities/Icons.vue')
                 },
                 {
                     path: '/pages/timeline',
@@ -151,27 +146,27 @@ const router = createRouter({
                 {
                     path: '/pages/repocrud',
                     name: 'repocrud',
-                    component: () => import('@/views/pages/RepoCrud.vue')
+                    component: () => import('@/views/pages/repo/RepoCrud.vue')
                 },
                 {
                     path: '/pages/repolist',
                     name: 'repolist',
-                    component: () => import('@/views/pages/Repolist.vue')
+                    component: () => import('@/views/pages/repo/Repolist.vue')
                 },
                 {
                     path: '/pages/profile',
                     name: 'profile',
-                    component: () => import('@/views/pages/profile.vue')
+                    component: () => import('@/views/pages/user/profile.vue')
                 },
                 {
                     path: '/pages/evaluate',
                     name: 'evaluate',
-                    component: () => import('@/views/frontend/Evaluate.vue')
+                    component: () => import('@/views/pages/evaluation/Evaluate.vue')
                 },
                 {
                     path: '/pages/rating_detail',
                     name: 'rating_detail',
-                    component: () => import('@/views/pages/rating_detail.vue')
+                    component: () => import('@/views/pages/evaluation/rating_detail.vue')
                 },
                 {
                     path: '/pages/chat',
@@ -181,7 +176,7 @@ const router = createRouter({
                 {
                     path: '/documentation',
                     name: 'documentation',
-                    component: () => import('@/views/utilities/Documentation.vue')
+                    component: () => import('@/views/sakai/utilities/Documentation.vue')
                 }
             ]
         },
@@ -193,7 +188,7 @@ const router = createRouter({
         {
             path: '/pages/notfound',
             name: 'notfound',
-            component: () => import('@/views/pages/NotFound.vue')
+            component: () => import('@/views/sakai/NotFound.vue')
         },
 
         {

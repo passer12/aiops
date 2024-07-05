@@ -4,8 +4,8 @@ import { ProductService } from '@/service/ProductService';
 import { useLayout } from '@/layout/composables/layout';
 import Breadcrumb from 'primevue/breadcrumb';
 
-import Rating_tag from '@/views/utilities/rating_tag.vue';
-import Evaluate from '@/views/frontend/Evaluate.vue';
+import Rating_tag from '@/views/sakai/utilities/rating_tag.vue';
+import Evaluate from '@/views/pages/evaluation/Evaluate.vue';
 const { isDarkTheme } = useLayout();
 const status = ref(null);
 status.value = { repo_num: 10 };
@@ -103,10 +103,8 @@ const reponame = ref(window.localStorage.getItem('repo_name') ? window.localStor
 const items = ref([{ label: window.localStorage.getItem('username'), url: '/pages/profile' }, { label: reponame }]); //
 </script>
 <template>
-     <!-- 仅限填充作用，逆天代码 -->
-    <div hidden>{{
-          items[1].label = $route.query.repo?$route.query.repo:items[1].label
-      }}</div>
+    <!-- 仅限填充作用，逆天代码 -->
+    <div hidden>{{ (items[1].label = $route.query.repo ? $route.query.repo : items[1].label) }}</div>
     <Breadcrumb :home="home" :model="items" />
     <p></p>
     <div class="card">
