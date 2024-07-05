@@ -1,7 +1,7 @@
 <script setup>
 import ProgressBar from 'primevue/progressbar';
 import { ref } from 'vue';
-
+import Knob from 'primevue/knob';
 // breadcrumb区域
 const home = ref({
     icon: 'pi pi-home',
@@ -13,6 +13,7 @@ const items = ref([{ label: window.localStorage.getItem('username'), url: '/page
   {label: "可读性评分"}
 ]); //
 
+const rating = ref(50)
 </script>
 
 <template>
@@ -21,9 +22,10 @@ const items = ref([{ label: window.localStorage.getItem('username'), url: '/page
     <Card style="width: 70%">
         <template #title>可读性评分</template>
         <template #content>
-            <div class="text-900 font-medium text-xl">{{ 0.5 }}</div>
-            <br />
-            <ProgressBar :value="50" style="width: 50%"></ProgressBar>
+<!--            <div class="text-900 font-medium text-xl">{{ rating }}</div>-->
+            <div style="width:40%" class="card flex justify-center">
+                <Knob v-model="rating" :size="100" />
+            </div>
         </template>
     </Card>
     <br />
