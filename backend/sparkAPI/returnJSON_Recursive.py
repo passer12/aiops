@@ -5,14 +5,14 @@ from django.db import transaction
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 sys.path.append(parent_dir)
-#import IntelligentOps.IntelligentOps as intOps
+import IntelligentOps.IntelligentOps as intOps
 
 from sparkAPI.models import Repo, TreeNode, NodeData 
 from gitRepo.models import Repository
 from django.contrib.auth.models import User
 
-#code_analysis_tool = intOps.CodeAnalysisTool()
-#spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
+code_analysis_tool = intOps.CodeAnalysisTool()
+spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
 
 # 设置代理
 os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
