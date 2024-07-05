@@ -18,9 +18,6 @@ from sparkAPI.models import TreeNode, NodeData
 from gitRepo.models import Repository
 from django.contrib.auth.models import User
 
-code_analysis_tool = intOps.CodeAnalysisTool()
-spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
-
 # Create your views here.
 
 # 递归将节点转换为字典
@@ -148,6 +145,31 @@ def view_target_repos_json_secure(request):
     except Exception as e:
         print(f"Error: {e}")
         return JsonResponse({'error': 'Internal server error.'}, status=500)
+
+#--------------------------------------------------------------------------
+
+# 更新aiOps配置
+@api_view(['GET'])
+def update_aiops_config(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    
+    if user is None:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+    # api参数
+    app_id = request.GET.get('app_id', '')
+    api_secret = request.GET.get('api_secret', '')
+    api_key = request.GET.get('api_key', '')
+    # 模型参数
+    version = request.GET.get('version', '') # 1.1 Spark Lite, 2.1 Spark V2.0, 3.1 Spark Pro, 3.5 Spark Max, 4.0 Spark Ultra
+    max_token = request.GET.get('max_token', '') # 取值为[1,8192]，默认为4096。
+    temperature = request.GET.get('temperature', '') # 取值为(0.0,1.0]，默认为0.5。
+    
+    returnJSON_Recursive.change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature)
+    
+
 
 #--------------------------------------------------------------
 

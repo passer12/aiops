@@ -18,6 +18,11 @@ spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
 os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
 os.environ["HTTPS_PROXY"] = "127.0.0.1:7890"
 
+# 更改aiOps配置
+def change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature):
+    spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_token, temperature)
+    return spark_aiOps
+
 # 评估文件内容
 def evaluate_file(file_content):
     report = spark_aiOps.quality_issues_suggestions(file_content)
