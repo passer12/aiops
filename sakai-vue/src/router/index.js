@@ -129,21 +129,6 @@ const router = createRouter({
                     component: () => import('@/views/sakai/utilities/Icons.vue')
                 },
                 {
-                    path: '/pages/timeline',
-                    name: 'timeline',
-                    component: () => import('@/views/pages/Timeline.vue')
-                },
-                {
-                    path: '/pages/empty',
-                    name: 'empty',
-                    component: () => import('@/views/pages/Empty.vue')
-                },
-                {
-                    path: '/pages/crud',
-                    name: 'crud',
-                    component: () => import('@/views/pages/Crud.vue')
-                },
-                {
                     path: '/pages/repocrud',
                     name: 'repocrud',
                     component: () => import('@/views/pages/repo/RepoCrud.vue')
