@@ -60,11 +60,22 @@ def generate_repo_json(repo):
 from django.db import transaction
 from django.http import JsonResponse
 from github import Github
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-def generate_target_repos_json(request):
+@api_view(['GET', 'POST'])
+def generate_target_repos_json_secure(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    
+    if user is None:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+    Owner_id = user.id
+    
     target_repo_url = request.GET.get('repo_url', '')
     Owner_id = request.GET.get('Owner', '')
-    # print("Owner_id: ", Owner_id)
+    access_token = request.GET.get('access_token', '')
     
     try:
         target_owner = User.objects.get(id=Owner_id)
@@ -80,7 +91,7 @@ def generate_target_repos_json(request):
                 print(f"Repository found: {repo}")
             except Repository.DoesNotExist:
                 print("Repository does not exist, evaluating repo...")
-                repo = returnJSON_Recursive.evaluate_repo(target_repo_url, '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', Owner_id)
+                repo = returnJSON_Recursive.evaluate_repo(target_repo_url, access_token, Owner_id)
                 if not repo:
                     print(f"Evaluation failed for repo_url {target_repo_url} and Owner_id {Owner_id}")
                     return JsonResponse({'error': 'repo_url is invalid or Owner does not exist.'}, status=400)
@@ -93,7 +104,42 @@ def generate_target_repos_json(request):
         print(f"Error: {e}")
         return JsonResponse({'error': 'Internal server error.'}, status=500)
 
-def View_target_repos_json(request):
+
+
+
+def generate_target_repos_json(request):
+    target_repo_url = request.GET.get('repo_url', '')
+    Owner_id = request.GET.get('Owner', '')
+    access_token = request.GET.get('access_token', '')
+    
+    try:
+        target_owner = User.objects.get(id=Owner_id)
+        print(f"Target Owner: {target_owner}")
+    except User.DoesNotExist:
+        print(f"Owner with id {Owner_id} does not exist.")
+        return JsonResponse({'error': 'Owner does not exist.'}, status=400)
+    
+    try:
+        with transaction.atomic():
+            try:
+                repo = Repository.objects.get(Link=target_repo_url, Owner=target_owner)
+                print(f"Repository found: {repo}")
+            except Repository.DoesNotExist:
+                print("Repository does not exist, evaluating repo...")
+                repo = returnJSON_Recursive.evaluate_repo(target_repo_url, access_token, Owner_id)
+                if not repo:
+                    print(f"Evaluation failed for repo_url {target_repo_url} and Owner_id {Owner_id}")
+                    return JsonResponse({'error': 'repo_url is invalid or Owner does not exist.'}, status=400)
+                print(f"Newly created repository: {repo}")
+            
+            json_output = generate_repo_json(repo)
+
+            return JsonResponse(json_output, safe=False)
+    except Exception as e:
+        print(f"Error: {e}")
+        return JsonResponse({'error': 'Internal server error.'}, status=500)
+
+def view_target_repos_json(request):
     target_repo_url = request.GET.get('repo_url', '')
     Owner_id = request.GET.get('Owner', '')
     
@@ -130,12 +176,12 @@ def View_target_repos_json(request):
 #     try:
 #         # 如果仓库存在，则更新
 #         repo = Repository.objects.get(Link=target_repo_url, Owner=target_owner)
-#         rt = returnJSON_Recursive.update_repo(target_repo_url, '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', Owner_id)
+#         rt = returnJSON_Recursive.update_repo(target_repo_url, '', Owner_id)
 #         if not rt:
 #             return JsonResponse({'error': 'repo_url is invalid.'}, status=400)
 #     except Repository.DoesNotExist:
 #         # 如果仓库不存在，则创建，并进行评估
-#         rt = returnJSON_Recursive.evaluate_repo(target_repo_url, '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', Owner_id)
+#         rt = returnJSON_Recursive.evaluate_repo(target_repo_url, '', Owner_id)
 #         # 仓库地址无效/无权访问
 #         if not rt:
 #             return JsonResponse({'error': 'repo_url is invalid.'}, status=400)

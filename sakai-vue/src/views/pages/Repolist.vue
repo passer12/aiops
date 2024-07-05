@@ -11,11 +11,42 @@ onMounted(() => {
         repos_list.value = data;
     });
 });
+// const evaluate_request = (repo) => {
+//     repo.Link = 0; //后端不完备，暂时出此下策
+//     console.log('评估请求');
+//     alert("评估一波,导到一个等待界面")
+// };
+
 const evaluate_request = (repo) => {
-    repo.Link = 0; //后端不完备，暂时出此下策
+    repo.Link = 0; // 后端不完备，暂时出此下策
     console.log('评估请求');
-    alert("评估一波,导到一个等待界面")
+    alert("评估一波,导到一个等待界面");
+
+    // 参数
+    const owner = repo.owner;
+    const repo_url = repo.repo_url;
+
+    const access_token = "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";
+
+    // 发起GET请求到后端代理端点
+    axios.get('/api/proxy/generate_repo_json', {
+        params: {
+            owner: owner,
+            repo_url: repo_url,
+            access_token: access_token
+        }
+    })
+    .then(response => {
+        console.log('成功获取数据:', response.data);
+        // 在这里处理返回的数据
+    })
+    .catch(error => {
+        console.error('获取数据失败:', error);
+        // 处理错误
+    });
 };
+
+
 const redirect_to_result = (reponame) => {
   console.log('查看结果');
   alert("跳转到结果界面")
