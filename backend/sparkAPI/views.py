@@ -18,9 +18,6 @@ from sparkAPI.models import TreeNode, NodeData
 from gitRepo.models import Repository
 from django.contrib.auth.models import User
 
-code_analysis_tool = intOps.CodeAnalysisTool()
-spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
-
 # Create your views here.
 
 # 递归将节点转换为字典
@@ -148,6 +145,100 @@ def view_target_repos_json_secure(request):
     except Exception as e:
         print(f"Error: {e}")
         return JsonResponse({'error': 'Internal server error.'}, status=500)
+
+#--------------------------------------------------------------------------
+
+# 更新aiOps配置
+@api_view(['GET'])
+def update_aiops_config(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    
+    if user is None:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+    # api参数
+    app_id = request.GET.get('app_id', '')
+    api_secret = request.GET.get('api_secret', '')
+    api_key = request.GET.get('api_key', '')
+    # 模型参数
+    version = request.GET.get('version', '') # 1.1 Spark Lite, 2.1 Spark V2.0, 3.1 Spark Pro, 3.5 Spark Max, 4.0 Spark Ultra
+    max_token = request.GET.get('max_token', '') # 取值为[1,8192]，默认为4096。
+    temperature = request.GET.get('temperature', '') # 取值为(0.0,1.0]，默认为0.5。
+    
+    returnJSON_Recursive.change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature)
+    
+
+
+#--------------------------------------------------------------
+
+from sparkAPI.IntelligentOps.sparkdesk_api.core import SparkAPI
+
+app_id="e8bd2492"
+api_secret="MGY1MjIzMDk1MTQ4Y2U1YzUxMWI5Yzk1"
+api_key="28b98e55ec8e83daddf1e591952e2614"
+
+# AIOPS对话类
+class aipos_chatter:
+    def __init__(self, u_id):
+        self.owner = u_id
+        self.chatter = SparkAPI(
+        app_id=app_id,
+        api_secret=api_secret,
+        api_key=api_key,
+        # version=2.1
+        # assistant_id="xyzspsb4i5s7_v1"
+    )
+    
+    def chat_stream(self, query):
+        """
+        与AIOPS对话，返回对话结果
+        """
+        query_result = self.chatter.chat_stream_api(query)
+        return query_result
+
+api_chatter_list = {}
+
+# 与AIOPS对话
+@api_view(['GET'])
+def talk_with_aiops(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    
+    if user is None:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+    query = request.GET.get('query', '')
+    
+    # 检查是否存在对应的AIOPS实例
+    owner_id = user.id
+    if owner_id not in api_chatter_list:
+        api_chatter_list[owner_id] = aipos_chatter(owner_id)
+    
+    try:
+        query_result = api_chatter_list[owner_id].chat_stream(query)
+        return JsonResponse({'response': query_result}, safe=False)
+    except Exception as e:
+        print(f"Error: {e}")
+        return JsonResponse({'error': 'Internal server error.'}, status=500)
+
+# 删除AIOPS实例
+@api_view(['GET'])
+def delete_aiops_instance(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    
+    if user is None:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+    owner_id = user.id
+    if owner_id in api_chatter_list:
+        del api_chatter_list[owner_id]
+    
+    return JsonResponse({'response': 'Instance deleted.'}, safe=False)
 
 # -------------------------------------------------------------------------
 

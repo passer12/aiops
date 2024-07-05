@@ -18,6 +18,11 @@ spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
 os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
 os.environ["HTTPS_PROXY"] = "127.0.0.1:7890"
 
+# 更改aiOps配置
+def change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature):
+    spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_token, temperature)
+    return spark_aiOps
+
 # 评估文件内容
 def evaluate_file(file_content):
     report = spark_aiOps.quality_issues_suggestions(file_content)
@@ -33,21 +38,18 @@ def evaluate_store_repo(repo, repo_object, parent_node=None, path=""):
             print(f"Processing content: {content.path}, type: {content.type}")
             
             if content.type == "dir":
-                print("tag1")
                 tree_node = TreeNode.objects.create(
                     repo=repo_object,
                     key=content.path,
                     label=content.name,
                     parent=parent_node
                 )
-                print("tag2")
                 # print(f"Created TreeNode for directory: {tree_node}")
-                print("tag3")
                 evaluate_store_repo(repo, repo_object, tree_node, content.path)
             else:
                 file_content = content.decoded_content.decode()
-                # evaluation_result = evaluate_file(file_content)
-                evaluation_result = {"file_info": "当前选择为文件", "quality": "当前选择为文件", "issues": "当前选择为文件", "suggestions": "当前选择为文件"}
+                evaluation_result = evaluate_file(file_content)
+                # evaluation_result = {"file_info": "当前选择为文件", "quality": "当前选择为文件", "issues": "当前选择为文件", "suggestions": "当前选择为文件"}
                 tree_node = TreeNode.objects.create(
                     repo=repo_object,
                     key=content.path,

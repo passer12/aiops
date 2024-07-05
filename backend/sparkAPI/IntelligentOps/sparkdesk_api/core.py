@@ -9,14 +9,16 @@ from sparkdesk_api.utils import get_prompt, process_response, is_support_version
 
 
 class SparkAPI:
-    __api_url = 'wss://spark-api.xf-yun.com/v3.5/chat'  # 默认为3.0版本
+    __api_url = 'wss://spark-api.xf-yun.com/v3.5/chat'  # 默认为Spark Max
     __domain = 'generalv3.5'
-    __max_token = 2048
+    __max_tokens = 4096 # 取值为[1,8192]，默认为4096。 模型回答的tokens的最大长度
+    __temperature = 0.5  # 取值为(0.0,1.0]，默认为0.5。 核采样阈值。用于决定结果随机性，取值越高随机性越强即相同的问题得到的不同答案的可能性越高
 
     def __init__(self, app_id, api_key, api_secret, version=None, assistant_id=None):
         self.__app_id = app_id
         self.__api_key = api_key
         self.__api_secret = api_secret
+        self.__history = []
         # 配置版本
         if version is not None and is_support_version(version):
             self.__set_version(version)
@@ -26,28 +28,54 @@ class SparkAPI:
             self.__api_url = f'wss://spark-openapi.cn-huabei-1.xf-yun.com/v1/assistants/{assistant_id}'
             self.__domain = 'general'
 
+    def __set_temperature(self, temperature):
+        if isinstance(temperature, float) is False or temperature <= 0 or temperature > 1:
+            print("set_temperature() error: temperature should be a float between 0 and 1!")
+            return
+        self.__temperature = temperature
+
     def __set_version(self, version):
-        # 讯飞v1.0
+        # Spark Lite
         if version == 1.1:
             self.__api_url = 'wss://spark-api.xf-yun.com/v1.1/chat'
             self.__domain = 'general'
-        # 讯飞v2.0
+        # Spark V2.0
         elif version == 2.1:
             self.__api_url = 'wss://spark-api.xf-yun.com/v2.1/chat'
             self.__domain = 'generalv2'
+        # Spark Pro
         elif version == 3.1:
             self.__api_url = 'wss://spark-api.xf-yun.com/v3.1/chat'
             self.__domain = 'generalv3'
+        # Spark Max
         elif version == 3.5:
-            return
-
+            self.__api_url = 'wss://spark-api.xf-yun.com/v3.5/chat'
+            self.__domain = 'generalv3.5'
+        # Spark Ultra
+        elif version == 4.0:
+            self.__api_url = 'wss://spark-api.xf-yun.com/v4.0/chat'
+            self.__domain = '4.0Ultra'
 
     def __set_max_tokens(self, token):
         if isinstance(token, int) is False or token < 0:
             print("set_max_tokens() error: tokens should be a positive integer!")
             return
-        self.__max_token = token
+        self.__max_tokens = token
 
+    def update_config(self,app_id=None, api_key=None, api_secret=None, version=None, token=None, temperature=None):
+        if app_id is not None:
+            self.__app_id = app_id
+        if api_key is not None:
+            self.__api_key = api_key
+        if api_secret is not None:
+            self.__api_secret = api_secret
+        if version is not None:
+            self.__set_version(version)
+        if token is not None:
+            self.__set_max_tokens(token)
+        if temperature is not None:
+            self.__set_temperature(temperature)
+    
     """
     doc url: https://www.xfyun.cn/doc/spark/general_url_authentication.html
     """
@@ -94,6 +122,9 @@ class SparkAPI:
             temperature: float = 0.5,
             max_tokens: int = 2048
     ):
+        temperature = self.__temperature
+        max_tokens = self.__max_tokens
+        
         input_dict = {
             "header": {
                 "app_id": self.__app_id,
@@ -120,11 +151,14 @@ class SparkAPI:
             max_tokens: int = 2048,
             temperature: float = 0.5,
     ):
+        temperature = self.__temperature
+        max_tokens = self.__max_tokens
+        
         if history is None:
             history = []
 
-        # the max of max_length is 4096
-        max_tokens = min(max_tokens, 4096)
+        # the max of max_length is 8192
+        max_tokens = min(max_tokens, 8192)
         url = self.__get_authorization_url()
         ws = create_connection(url)
         message = get_prompt(query, history)
@@ -164,6 +198,9 @@ class SparkAPI:
             max_tokens: int = 2048,
             temperature: float = 0.5,
     ):
+        max_tokens = self.__max_tokens
+        temperature = self.__temperature
+        
         if history is None:
             history = []
 
@@ -214,3 +251,27 @@ class SparkAPI:
                 print(e)
         finally:
             print("\nThank you for using the SparkDesk AI. Welcome to use it again!")
+    
+    def chat_stream_api(self, query):
+        try:
+            return_response = []
+            for response, _ in self.__streaming_output(query, self.__history):
+                return_response.append(response)
+            return return_response[-1]
+        except BaseException as e:
+            if isinstance(e, KeyboardInterrupt):
+                print(e)
+
+app_id="e8bd2492"
+api_secret="MGY1MjIzMDk1MTQ4Y2U1YzUxMWI5Yzk1"
+api_key="28b98e55ec8e83daddf1e591952e2614"
+
+if __name__ == '__main__':
+    test_ai = SparkAPI(
+        app_id=app_id,
+        api_secret=api_secret,
+        api_key=api_key
+    )
+    print(test_ai.chat_stream_api("我叫小明，今年18岁了。"))
+    print(test_ai.chat_stream_api("我叫什么，今年多少岁了？"))
+    
