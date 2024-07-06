@@ -44,7 +44,7 @@ def tokentest(request):
 # 控制路由的配置
 urlpatterns = [
     path('', index, name='index'),
-    path('grappelli/', include('grappelli.urls')), # grappelli URLS
+    # path('grappelli/', include('grappelli.urls')), # grappelli URLS
     path('admin/', admin.site.urls),
     path('api/', include('djoser.urls'), name='djoserApi'),   # 用户登录注册相关路由，直接调用djoser库
     path('api/', include('djoser.urls.jwt'), name='djoserJWT'),  # jwt token相关路由，用来维持用户状态，就是cookie

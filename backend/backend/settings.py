@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost', 'backend']
 # Application definition
 
 INSTALLED_APPS = [
-    'grappelli',
+    'simpleui',  # 注意这里
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -101,7 +101,6 @@ DATABASES = {
         'PORT': '33060',
     }
 }
-
 
 # DATABASES = {
 #     'default': {
@@ -203,4 +202,18 @@ SIMPLE_JWT = {
 # 上传头像，配置这东西是为了尽力保持安全性，gpt生成
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# SimpleUI配置
+# 去掉默认Logo或换成自己Logo链接
+SIMPLEUI_LOGO = '/media/login.png'
+
+# 隐藏右侧SimpleUI广告链接和使用分析
+SIMPLEUI_HOME_INFO = False
+SIMPLEUI_ANALYSIS = False
+
+# 离线模式。不填该项或者为False的时候，默认从第三方的cdn获取
+# SIMPLEUI_STATIC_OFFLINE = False
+
+# 设置默认主题，指向主题css文件名。绿色
+SIMPLEUI_DEFAULT_THEME = 'e-green.css'
 
