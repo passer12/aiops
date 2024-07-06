@@ -1,4 +1,4 @@
-from sparkdesk_api.core import SparkAPI
+from sparkAPI.IntelligentOps.sparkdesk_api.core import SparkAPI
 import sys
 import os
 

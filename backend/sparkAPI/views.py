@@ -70,8 +70,31 @@ def update_aiops_config(request):
     if user is None:
         return JsonResponse({'error': 'Invalid token'}, status=401)
     
-    # 更新配置
-    returnJSON_Recursive.update_aiops_config(user.config.app_id, user.config.api_secret, user.config.api_key, user.config.version, user.config.max_tokens, user.config.temperature)
+    app_id = request.GET.get('app_id', '')
+    api_secret = request.GET.get('api_secret', '')
+    api_key = request.GET.get('api_key', '')
+    version = request.GET.get('version', '')
+    max_tokens = request.GET.get('max_tokens', '')
+    temperature = request.GET.get('temperature', '')
+    
+    print(app_id, type(app_id))
+    print(api_secret, type(api_secret))
+    print(api_key, type(api_key))
+    print(version, type(version))
+    print(max_tokens, type(max_tokens))
+    print(temperature, type(temperature))
+    
+    # 类型转换
+    version = float(version)
+    max_tokens = int(max_tokens)
+    temperature = float(temperature)
+    
+    returnJSON_Recursive.change_aiOps_config(app_id, api_secret, api_key, version, max_tokens, temperature)
+    
+    return JsonResponse({'response': 'Config updated.'}, safe=False)
+    
+    # # 更新配置
+    # returnJSON_Recursive.change_aiOps_config(user.config.app_id, user.config.api_secret, user.config.api_key, user.config.version, user.config.max_tokens, user.config.temperature)
   
 
 # 生成目标仓库评估结果-安全方式

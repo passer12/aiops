@@ -34,7 +34,7 @@ const handleSubmit = () => {
         api_secret: api_secret.value,
         api_key: api_key.value,
         version: radioValue.value,
-        max_token: sliderValue.value,
+        max_tokens: sliderValue.value,
         temperature: tam_sliderValue.value
     };
     console.log(form_data);

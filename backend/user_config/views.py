@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from .serializers import ProfileSerializer
-from .models import UserProfile, UserConfig
+from .serializers import ConfigSerializer
+from .models import UserConfig
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 # Create your views here.
@@ -20,7 +20,7 @@ def config(request):
     if request.method == 'GET':
         try:
             # 获取用户的配置信息
-            user_config = ProfileSerializer(user.config)
+            user_config = ConfigSerializer(user.config)
             print(user_config.data)
             return JsonResponse(user_config.data, safe=False)
 
@@ -41,7 +41,7 @@ def config(request):
                                 'owner': user.pk}
             # 为repo_data添加一个Owner字段,但是由于他是QueryDick类型，所以不能直接添加
             # print(repo_data)
-            config_serializer = ProfileSerializer(data=new_config_data)
+            config_serializer = ConfigSerializer(data=new_config_data)
 
             if config_serializer.is_valid():
                 config_serializer.save()
@@ -67,7 +67,7 @@ def config(request):
 
             # 为repo_data添加一个Owner字段,但是由于他是QueryDick类型，所以不能直接添加
             # print(repo_data)
-            config_serializer = ProfileSerializer(user.config, data=config_data, partial=True)
+            config_serializer = ConfigSerializer(user.config, data=config_data, partial=True)
 
             if config_serializer.is_valid():
                 config_serializer.save()

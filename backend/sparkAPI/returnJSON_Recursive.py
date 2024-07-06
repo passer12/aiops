@@ -35,8 +35,13 @@ def clean_date(input_string):
 
 
 # 更改aiOps配置
-def change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature):
-    spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_token, temperature)
+def change_aiOps_config(app_id, api_secret, api_key, version, max_tokens, temperature):
+    # print(spark_aiOps.code_analysis_tool.ai_tool.chat("你好"))
+    ai_tool = spark_aiOps.code_analysis_tool.ai_tool
+    print(type(ai_tool))  # 打印对象类型
+    print(dir(ai_tool))   # 打印对象方法
+    
+    spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_tokens, temperature)
 
 # 设置代理
 # os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
