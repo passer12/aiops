@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./sakai-vue
+    ports:
+      - "5173:5173"
+    networks:
+      - my-network
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8000:8000"
+    networks:
+      - my-network
+    environment:
+      - DJANGO_DB_HOST=db
+      - DJANGO_DB_NAME=sakai
+      - DJANGO_DB_USER=root
+      - DJANGO_DB_PASSWORD=root
+  
+  db:
+    image: mysql:8
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=sakai
+      - MYSQL_USER=ftre  # 这个用户配置可以保留或者移除
+      - MYSQL_PASSWORD=ftre
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "3306:3306"
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
