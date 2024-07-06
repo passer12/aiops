@@ -69,13 +69,7 @@ const register_send = () => {
                         <label for="password2" class="block text-900 font-medium text-xl mb-2">Re input password</label>
                         <Password id="password2" v-model="re_password" placeholder="Password" :toggleMask="true" class="w-full mb-3" inputClass="w-full" :inputStyle="{ padding: '1rem' }"></Password>
 
-                        <div class="flex align-items-center justify-content-between mb-5 gap-5">
-                            <div class="flex align-items-center">
-                                <Checkbox v-model="checked" id="rememberme1" binary class="mr-2"></Checkbox>
-                                <label for="rememberme1">Remember me</label>
-                            </div>
-                            <a class="font-medium no-underline ml-2 text-right cursor-pointer" style="color: var(--primary-color)">Forgot password?</a>
-                        </div>
+
                         <Button label="Sign up" class="w-full p-3 text-xl" @click="register_send()"></Button>
                     </div>
                 </div>

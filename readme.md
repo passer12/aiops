@@ -38,12 +38,12 @@ python manage.py runserver
 
 ## 项目主要界面截图
 
-![image-20240706161841160](img/readme/image-20240706161841160.png)
+![image-20240706215205379](img/readme/image-20240706215205379.png)
 
 ![image-20240706162001376](img/readme/image-20240706162001376.png)
 
 ![image-20240706162027765](img/readme/image-20240706162027765.png)
 
-![image-20240706162050648](img/readme/image-20240706162050648.png)
+![image-20240706215129862](img/readme/image-20240706215129862.png)
 
 ![image-20240706162123632](img/readme/image-20240706162123632.png)

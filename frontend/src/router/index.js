@@ -245,6 +245,11 @@ const router = createRouter({
             path: '/auth/error',
             name: 'error',
             component: () => import('@/views/pages/auth/Error.vue')
+        },
+        {
+            path: '/admin',
+            name: 'admin',
+            component: () => import('@/views/pages/admin/admin.vue')
         }
     ]
 });
