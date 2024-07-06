@@ -21,7 +21,6 @@ def config(request):
         try:
             # 获取用户的配置信息
             user_config = ConfigSerializer(user.config)
-            print(user_config.data)
             return JsonResponse(user_config.data, safe=False)
 
         except UserConfig.DoesNotExist:
@@ -40,7 +39,6 @@ def config(request):
                                 'temperature': config_data['temperature'],
                                 'owner': user.pk}
             # 为repo_data添加一个Owner字段,但是由于他是QueryDick类型，所以不能直接添加
-            # print(repo_data)
             config_serializer = ConfigSerializer(data=new_config_data)
 
             if config_serializer.is_valid():
