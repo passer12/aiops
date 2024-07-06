@@ -24,15 +24,3 @@ class NodeData(models.Model):
 
     def __str__(self):
         return f"{self.node.label} - {self.title}"
-
-class aiOps_config(models.Model):
-    app_id = models.CharField(max_length=255)
-    api_secret = models.CharField(max_length=255)
-    api_key = models.CharField(max_length=255)
-    version = models.FloatField()
-    max_tokens = models.IntegerField()
-    temperature = models.FloatField()
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='aiOps_config')
-
-    def __str__(self):
-        return f"{self.owner.username} - {self.version} - {self.max_tokens} - {self.temperature}"

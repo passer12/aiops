@@ -89,7 +89,7 @@ def update_aiops_config(request):
     max_tokens = int(max_tokens)
     temperature = float(temperature)
     
-    returnJSON_Recursive.change_aiOps_config(app_id, api_secret, api_key, version, max_tokens, temperature)
+    returnJSON_Recursive.change_aiOps_config_for_debug(app_id, api_secret, api_key, version, max_tokens, temperature)
     
     return JsonResponse({'response': 'Config updated.'}, safe=False)
     
@@ -109,8 +109,16 @@ def generate_target_repos_json_secure(request):
     
     Owner_id = user.id
     
-    # # 更新配置
-    # returnJSON_Recursive.update_aiops_config(user.config.app_id, user.config.api_secret, user.config.api_key, user.config.version, user.config.max_tokens, user.config.temperature)
+    # 更新配置
+    print(user.config)
+    app_id = user.config.app_id
+    api_secret = user.config.api_secret
+    api_key = user.config.api_key
+    version = user.config.version
+    max_tokens = user.config.max_tokens
+    temperature = user.config.temperature
+    
+    returnJSON_Recursive.update_aiOps_config(api_key=api_key, api_secret=api_secret, app_id=app_id, version=version, max_tokens=max_tokens, temperature=temperature)
     
     access_token = user.profile.access_token
     

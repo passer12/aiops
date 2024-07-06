@@ -13,7 +13,7 @@ class UserConfig(models.Model):
     version = models.FloatField()
     max_tokens = models.IntegerField()
     temperature = models.FloatField()
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='config')
+    owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='config')
 
     def __str__(self):
         return f"{self.owner.username} - {self.version} - {self.max_tokens} - {self.temperature}"
