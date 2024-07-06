@@ -73,39 +73,6 @@ def calculate_average_scores(repository_id):
     
     return avg_scores
 
-# from django.db.models import Avg, F
-
-# def calculate_average_scores(repository):
-#     # 获取指定Repository的所有TreeNode，并左外连接NodeScore
-#     nodes = TreeNode.objects.filter(repo=repository).annotate(
-#         score_readability=F('score__score_readability'),
-#         score_performance=F('score__score_performance'),
-#         score_usability=F('score__score_usability'),
-#         score_security=F('score__score_security'),
-#         score_maintainability=F('score__score_maintainability')
-#     )
-    
-#     # # 计算每个评分维度的平均值
-#     # avg_scores = NodeScore.objects.filter(node__in=nodes).aggregate(
-#     #     avg_readability=Avg('score_readability'),
-#     #     avg_performance=Avg('score_performance'),
-#     #     avg_usability=Avg('score_usability'),
-#     #     avg_security=Avg('score_security'),
-#     #     avg_maintainability=Avg('score_maintainability')
-#     # )
-    
-#     # 计算每个评分维度的平均值，忽略None值
-#     avg_scores = nodes.aggregate(
-#         avg_readability=Avg('score_readability'),
-#         avg_performance=Avg('score_performance'),
-#         avg_usability=Avg('score_usability'),
-#         avg_security=Avg('score_security'),
-#         avg_maintainability=Avg('score_maintainability')
-#     )
-#     print(avg_scores)
-    
-#     return avg_scores
-
 # 递归将节点转换为字典
 def node_to_dict(node):
     node_dict = {
