@@ -8,16 +8,14 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 sys.path.append(parent_dir)
 import IntelligentOps.IntelligentOps as intOps
 
-from sparkAPI.models import TreeNode, NodeData 
+from sparkAPI.models import TreeNode, NodeData
 from gitRepo.models import Repository
 from django.contrib.auth.models import User
 
 code_analysis_tool = intOps.CodeAnalysisTool()
 spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
 
-# 设置代理
-os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
-os.environ["HTTPS_PROXY"] = "127.0.0.1:7890"
+aiOps_list = {}
 
 
 def clean_date(input_string):
@@ -37,9 +35,32 @@ def clean_date(input_string):
 
 
 # 更改aiOps配置
-def change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature):
-    spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_token, temperature)
-    return spark_aiOps
+def change_aiOps_config_for_debug(app_id, api_secret, api_key, version, max_tokens, temperature):
+    # print(spark_aiOps.code_analysis_tool.ai_tool.chat("你好"))
+    ai_tool = spark_aiOps.code_analysis_tool.ai_tool
+    print(type(ai_tool))  # 打印对象类型
+    print(dir(ai_tool))   # 打印对象方法
+    
+    spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_tokens, temperature)
+
+# # 更改aiOps配置
+# def update_aiOps_config(user):
+#     app_id = user.config.app_id
+#     api_secret = user.config.api_secret
+#     api_key = user.config.api_key
+#     version = user.config.version
+#     max_tokens = user.config.max_tokens
+#     temperature = user.config.temperature
+    
+#     spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_tokens, temperature)
+
+# 更改aiOps配置
+def update_aiOps_config(app_id, api_secret, api_key, version, max_tokens, temperature):    
+    spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_tokens, temperature)
+
+# 设置代理
+# os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
+# os.environ["HTTPS_PROXY"] = "127.0.0.1:7890"
 
 # 评估文件内容
 def evaluate_file(file_content):
@@ -353,3 +374,4 @@ def create_evaluate_repo(repo_url, access_token, Owner_id):
 #             ])
     
 #     return True
+

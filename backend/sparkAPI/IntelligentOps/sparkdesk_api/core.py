@@ -62,7 +62,7 @@ class SparkAPI:
             return
         self.__max_tokens = token
 
-    def update_config(self,app_id=None, api_key=None, api_secret=None, version=None, token=None, temperature=None):
+    def update_config(self,app_id=None, api_secret=None, api_key=None, version=None, token=None, temperature=None):
         if app_id is not None:
             self.__app_id = app_id
         if api_key is not None:

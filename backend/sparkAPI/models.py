@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from gitRepo.models import Repository
+from django.contrib.auth.models import User
 
 
 class TreeNode(models.Model):
