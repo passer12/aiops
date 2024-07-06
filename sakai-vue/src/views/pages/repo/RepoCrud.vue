@@ -53,7 +53,7 @@ const saveProduct = () => {
         username: localStorage.getItem('username'),
         Owner: 1
     };
-    console.log('formadata', formDate)
+    console.log('formadata', formDate);
     axios
         .post('/api/repos/', formDate)
         .then((response) => {

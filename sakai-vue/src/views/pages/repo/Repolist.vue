@@ -6,7 +6,7 @@ import Tag from 'primevue/tag';
 import axios from 'axios';
 const productService = new ProductService();
 const repos_list = ref(null);
-import ProgressSpinner from "primevue/progressspinner";
+import ProgressSpinner from 'primevue/progressspinner';
 
 // 假设你的JWT令牌存储在localStorage中
 const token = localStorage.getItem('token');
@@ -68,7 +68,7 @@ const redirect_to_result = (repo) => {
                     <!--                此处根据数据库评估状态显示，暂时设置为点击评估，就会改变-->
 
                     <Tag v-if="repo.status === '未评估'" severity="warning" value="未评估" rounded></Tag>
-                    <ProgressSpinner v-else-if="repo.status==='评估中'" style="width: 5vh; height: 5vh; margin:0;" :strokeWidth="4" />
+                    <ProgressSpinner v-else-if="repo.status === '评估中'" style="width: 5vh; height: 5vh; margin: 0" :strokeWidth="4" />
                     <Tag v-else-if="repo.status === '已评估'" severity="success" value="已评估" rounded></Tag>
                 </div>
             </template>

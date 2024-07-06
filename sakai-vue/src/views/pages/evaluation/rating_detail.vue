@@ -8,22 +8,19 @@ const home = ref({
     to: '/pages/profile'
 });
 const reponame = ref(window.localStorage.getItem('repo_name') ? window.localStorage.getItem('repo_name') : 'examplerepo');
-const items = ref([{ label: window.localStorage.getItem('username'), url: '/pages/profile' },
-  { label: reponame },
-  {label: "可读性评分"}
-]); //
+const items = ref([{ label: window.localStorage.getItem('username'), url: '/pages/profile' }, { label: reponame }, { label: '可读性评分' }]); //
 
-const rating = ref(50)
+const rating = ref(50);
 </script>
 
 <template>
     <Breadcrumb :home="home" :model="items" />
-    <br>
+    <br />
     <Card style="width: 70%">
         <template #title>可读性评分</template>
         <template #content>
-<!--            <div class="text-900 font-medium text-xl">{{ rating }}</div>-->
-            <div style="width:40%" class="card flex justify-center">
+            <!--            <div class="text-900 font-medium text-xl">{{ rating }}</div>-->
+            <div style="width: 40%" class="card flex justify-center">
                 <Knob v-model="rating" :size="100" />
             </div>
         </template>

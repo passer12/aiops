@@ -1,7 +1,7 @@
 <script setup>
 import axios from 'axios';
 import { ref } from 'vue';
-import {useToast } from 'primevue/usetoast';
+import { useToast } from 'primevue/usetoast';
 const toast = useToast();
 
 const customBase64Uploader = async (event) => {

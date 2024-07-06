@@ -76,8 +76,8 @@ const logoUrl = computed(() => {
                     <p class="font-normal text-2xl line-height-3 md:mt-3 text-gray-700">power your git with ai...</p>
                     <Button label="Get Started" @click="redirectToRegister" class="p-button-rounded text-xl border-none mt-5 bg-blue-500 font-normal text-white line-height-3 px-3"></Button>
                 </div>
-                <div class="flex justify-content-center md:justify-content-end">
-                    <img src="/demo/images/landing/screen-1.png" alt="Hero Image" class="w-9 md:w-auto" />
+                <div class="flex justify-content-center md:justify-content-start">
+                    <img src="/demo/images/landing/screen-11.png" alt="Hero Image" class="w-9 md:w-auto" style="transform: scale(0.4)" />
                 </div>
             </div>
 
@@ -236,7 +236,7 @@ const logoUrl = computed(() => {
 
                 <div class="grid mt-8 pb-2 md:pb-8">
                     <div class="flex justify-content-center col-12 lg:col-6 bg-purple-100 p-0 flex-order-1 lg:flex-order-0" style="border-radius: 8px">
-                        <img src="/demo/images/landing/mockup.svg" class="w-11" alt="mockup mobile" />
+                        <img src="/demo/images/landing/mocktest.png" class="w-11" alt="mockup mobile" style="transform: scale(0.8)" />
                     </div>
 
                     <div class="col-12 lg:col-6 my-auto flex flex-column lg:align-items-end text-center lg:text-right">
@@ -262,7 +262,7 @@ const logoUrl = computed(() => {
                     </div>
 
                     <div class="flex justify-content-end flex-order-1 sm:flex-order-2 col-12 lg:col-6 bg-yellow-100 p-0" style="border-radius: 8px">
-                        <img src="/demo/images/landing/mockup-desktop.svg" class="w-11" alt="mockup" />
+                        <img src="/demo/images/landing/screen-111.png" class="w-11" alt="mockup" style="transform: scale(0.9)" />
                     </div>
                 </div>
             </div>

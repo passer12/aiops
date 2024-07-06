@@ -26,7 +26,6 @@ const get_history = () => {
         });
 };
 onMounted(get_history);
-
 </script>
 
 <template>
