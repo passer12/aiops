@@ -2,3 +2,4 @@ __pycache__/
 *.pyc
 .idea
 sakai.sqlite3
+clean_env

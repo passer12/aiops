@@ -1,8 +1,19 @@
-# 智能运维
+# github仓库智能运维系统
 
-软工大作业
+2024 NKU 软件工程 课程项目
 
-前端vue,位于sakai-vue。模板组件参照https://sakai.primevue.org/   https://primevue.org/。 通过npm run dev运行
+使用Django + Vue + MySQL 实现
 
-后端django 位于backend，通过python manage.py runserver运行
+Github项目地址https://github.com/passer12/aiops
 
+## 项目主要界面截图
+
+![image-20240706161841160](img/readme/image-20240706161841160.png)
+
+![image-20240706162001376](img/readme/image-20240706162001376.png)
+
+![image-20240706162027765](img/readme/image-20240706162027765.png)
+
+![image-20240706162050648](img/readme/image-20240706162050648.png)
+
+![image-20240706162123632](img/readme/image-20240706162123632.png)
