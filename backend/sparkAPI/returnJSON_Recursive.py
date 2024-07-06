@@ -7,21 +7,33 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 sys.path.append(parent_dir)
 import IntelligentOps.IntelligentOps as intOps
 
-from sparkAPI.models import TreeNode, NodeData 
+from sparkAPI.models import TreeNode, NodeData, aiOps_config
 from gitRepo.models import Repository
 from django.contrib.auth.models import User
 
 code_analysis_tool = intOps.CodeAnalysisTool()
 spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
 
-# 设置代理
-os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
-os.environ["HTTPS_PROXY"] = "127.0.0.1:7890"
+aiOps_list = {}
 
-# 更改aiOps配置
-def change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature):
+# 更新AIOPS配置
+# def update_aiops_config(owner_id, app_id, api_secret, api_key, version, max_token, temperature):
+#     if owner_id not in aiOps_list:
+#         code_analysis_tool = intOps.CodeAnalysisTool()
+#         spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
+#         aiOps_list[owner_id] = spark_aiOps
+#         aiOps_config.objects.create(owner_id=owner_id, app_id=app_id, api_secret=api_secret, api_key=api_key, version=version, max_tokens=max_token, temperature=temperature)
+#     else:
+#         aiOps_config.objects.filter(owner_id=owner_id).update(app_id=app_id, api_secret=api_secret, api_key=api_key, version=version, max_tokens=max_token, temperature=temperature)
+    
+#     aiOps_list[owner_id].code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_token, temperature)
+
+def update_aiops_config(app_id, api_secret, api_key, version, max_token, temperature):
     spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_token, temperature)
-    return spark_aiOps
+
+# 设置代理
+# os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
+# os.environ["HTTPS_PROXY"] = "127.0.0.1:7890"
 
 # 评估文件内容
 def evaluate_file(file_content):
@@ -335,3 +347,4 @@ def create_evaluate_repo(repo_url, access_token, Owner_id):
 #             ])
     
 #     return True
+

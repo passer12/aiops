@@ -61,6 +61,19 @@ def generate_repo_json(repo):
     
     return json_data
 
+@api_view(['GET'])
+def update_aiops_config(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    
+    if user is None:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+    # 更新配置
+    returnJSON_Recursive.update_aiops_config(user.config.app_id, user.config.api_secret, user.config.api_key, user.config.version, user.config.max_tokens, user.config.temperature)
+  
+
 # 生成目标仓库评估结果-安全方式
 @api_view(['GET'])
 def generate_target_repos_json_secure(request):
@@ -72,6 +85,10 @@ def generate_target_repos_json_secure(request):
         return JsonResponse({'error': 'Invalid token'}, status=401)
     
     Owner_id = user.id
+    
+    # # 更新配置
+    # returnJSON_Recursive.update_aiops_config(user.config.app_id, user.config.api_secret, user.config.api_key, user.config.version, user.config.max_tokens, user.config.temperature)
+    
     access_token = user.profile.access_token
     
     target_repo_url = request.GET.get('repo_url', '')
@@ -148,27 +165,52 @@ def view_target_repos_json_secure(request):
 
 #--------------------------------------------------------------------------
 
-# 更新aiOps配置
-@api_view(['GET'])
-def update_aiops_config(request):
-    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
-    jwt_authenticator = JWTAuthentication()
-    user, token = jwt_authenticator.authenticate(request)
+
+# @api_view(['GET'])
+# def update_aiops_config(request):
+#     # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+#     jwt_authenticator = JWTAuthentication()
+#     user, token = jwt_authenticator.authenticate(request)
     
-    if user is None:
-        return JsonResponse({'error': 'Invalid token'}, status=401)
+#     if user is None:
+#         return JsonResponse({'error': 'Invalid token'}, status=401)
     
-    # api参数
-    app_id = request.GET.get('app_id', '')
-    api_secret = request.GET.get('api_secret', '')
-    api_key = request.GET.get('api_key', '')
-    # 模型参数
-    version = request.GET.get('version', '') # 1.1 Spark Lite, 2.1 Spark V2.0, 3.1 Spark Pro, 3.5 Spark Max, 4.0 Spark Ultra
-    max_token = request.GET.get('max_token', '') # 取值为[1,8192]，默认为4096。
-    temperature = request.GET.get('temperature', '') # 取值为(0.0,1.0]，默认为0.5。
+#     # 用户ID
+#     owner_id = user.id
+#     # api参数
+#     app_id = request.GET.get('app_id', '')
+#     api_secret = request.GET.get('api_secret', '')
+#     api_key = request.GET.get('api_key', '')
+#     # 模型参数
+#     version = request.GET.get('version', '') # 1.1 Spark Lite, 2.1 Spark V2.0, 3.1 Spark Pro, 3.5 Spark Max, 4.0 Spark Ultra
+#     max_token = request.GET.get('max_token', '') # 取值为[1,8192]，默认为4096。
+#     temperature = request.GET.get('temperature', '') # 取值为(0.0,1.0]，默认为0.5。
     
-    returnJSON_Recursive.change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature)
+#     returnJSON_Recursive.change_aiOps_config(owner_id, app_id, api_secret, api_key, version, max_token, temperature)
+
+# # 更新aiOps配置
+# @api_view(['POST'])
+# def update_aiops_config(request):
+#     # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+#     jwt_authenticator = JWTAuthentication()
+#     user, token = jwt_authenticator.authenticate(request)
     
+#     if user is None:
+#         return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+#     # 用户ID
+#     owner_id = user.id
+    
+#     if request.method=="POST":
+#         # api参数
+#         app_id = request.POST.get('app_id', '')
+#         api_secret = request.POST.get('api_secret', '')
+#         api_key = request.POST.get('api_key', '')
+#         # 模型参数
+#         version = request.POST.get('version', '') # 1.1 Spark Lite, 2.1 Spark V2.0, 3.1 Spark Pro, 3.5 Spark Max, 4.0 Spark Ultra'
+#         max_token = request.POST.get('max_token', '') # 取值为[1,8192]，默认为4096。
+#         temperature = request.POST.get('temperature', '') # 取值为(0.0,1.0]，默认为0.5。
+#         returnJSON_Recursive.update_aiOps_config(owner_id, app_id, api_secret, api_key, version, max_token, temperature)
 
 
 #--------------------------------------------------------------
