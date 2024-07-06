@@ -182,7 +182,6 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     # 'AUTH_HEADER_TYPES': ('JWT',),
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # 设置访问令牌的持续时间
-
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
     'ALGORITHM': 'HS256',

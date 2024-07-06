@@ -10,9 +10,9 @@ class UserConfig(models.Model):
     app_id = models.CharField(max_length=255)
     api_secret = models.CharField(max_length=255)
     api_key = models.CharField(max_length=255)
-    version = models.FloatField()
-    max_tokens = models.IntegerField()
-    temperature = models.FloatField()
+    version = models.FloatField(default="1.0")
+    max_tokens = models.IntegerField(default=4096)
+    temperature = models.FloatField(default=0.5)
     owner = models.OneToOneField(User, on_delete=models.CASCADE, related_name='config')
 
     def __str__(self):
