@@ -21,6 +21,7 @@ const selectedNode = ref(null); //选中的node
 const repo_url = window.localStorage.getItem('repo_url');
 const repo_name = window.localStorage.getItem('repo_name');
 const fetchFileInfo = async () => {
+    console.log('================================fetchFileInfo================================');
     console.log('repo_info', repo_name);
     axios
         .get('/api/spark/view_repo_json_secure/', {
@@ -46,9 +47,16 @@ const handleNodeSelected = (node) => {
 
     console.log('Node selected');
 };
-const chatit = () => {
+const chatit = (selectedNodeScore) => {
     console.log('chat it');
-    window.location = '/pages/Chat';
+    // 输出selectedNodeScore的详细信息
+    console.log('selectedNodeScore', selectedNodeScore.readability.score);
+    // alert('查看评分');
+    window.localStorage.setItem('file_score', JSON.stringify(selectedNodeScore));
+    const file_score = JSON.parse(window.localStorage.getItem('file_score'));
+    console.log('file_score', file_score.readability.score);
+    // alert('跳转到评分详情界面');
+    window.location.href = '/pages/home_file';
 };
 </script>
 
@@ -58,7 +66,7 @@ const chatit = () => {
             <div style="display: flex; flex-direction: row; justify-content: space-between">
                 <p v-if="selectedNode">当前选中文件为：{{ selectedNode.key }}</p>
                 <p v-else>请选择一个文件</p>
-                <Button @click="chatit" label="chat it" rounded></Button>
+                <Button @click="chatit(selectedNode.score)" label="查看评分" rounded></Button>
             </div>
         </div>
         <div class="main-container">

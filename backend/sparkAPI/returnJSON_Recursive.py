@@ -8,15 +8,12 @@ parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 sys.path.append(parent_dir)
 import IntelligentOps.IntelligentOps as intOps
 
-from sparkAPI.models import TreeNode, NodeData
+from sparkAPI.models import TreeNode, NodeData, NodeScore
 from gitRepo.models import Repository
 from django.contrib.auth.models import User
 
 code_analysis_tool = intOps.CodeAnalysisTool()
 spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
-
-aiOps_list = {}
-
 
 def clean_date(input_string):
     # 使用正则表达式匹配表情符号和其他特殊字符
@@ -42,17 +39,6 @@ def change_aiOps_config_for_debug(app_id, api_secret, api_key, version, max_toke
     print(dir(ai_tool))   # 打印对象方法
     
     spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_tokens, temperature)
-
-# # 更改aiOps配置
-# def update_aiOps_config(user):
-#     app_id = user.config.app_id
-#     api_secret = user.config.api_secret
-#     api_key = user.config.api_key
-#     version = user.config.version
-#     max_tokens = user.config.max_tokens
-#     temperature = user.config.temperature
-    
-#     spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_tokens, temperature)
 
 # 更改aiOps配置
 def update_aiOps_config(app_id, api_secret, api_key, version, max_tokens, temperature):    
@@ -102,6 +88,24 @@ def evaluate_store_repo(repo, repo_object, parent_node=None, path=""):
                     NodeData(node=tree_node, title="问题分析", content=evaluation_result["issues"]),
                     NodeData(node=tree_node, title="优化建议", content=evaluation_result["suggestions"])
                 ])
+                NodeScore.objects.create(
+                    node=tree_node,
+                    score_readability=evaluation_result["nodescore"]["readability"]["score"],
+                    score_readability_evaluations=evaluation_result["nodescore"]["readability"]["evaluations"],
+                    score_readability_suggestions=evaluation_result["nodescore"]["readability"]["suggestions"],
+                    score_performance=evaluation_result["nodescore"]["performance"]["score"],
+                    score_performance_evaluations=evaluation_result["nodescore"]["performance"]["evaluations"],
+                    score_performance_suggestions=evaluation_result["nodescore"]["performance"]["suggestions"],
+                    score_usability=evaluation_result["nodescore"]["usability"]["score"],
+                    score_usability_evaluations=evaluation_result["nodescore"]["usability"]["evaluations"],
+                    score_usability_suggestions=evaluation_result["nodescore"]["usability"]["suggestions"],
+                    score_security=evaluation_result["nodescore"]["security"]["score"],
+                    score_security_evaluations=evaluation_result["nodescore"]["security"]["evaluations"],
+                    score_security_suggestions=evaluation_result["nodescore"]["security"]["suggestions"],
+                    score_maintainability=evaluation_result["nodescore"]["maintainability"]["score"],
+                    score_maintainability_evaluations=evaluation_result["nodescore"]["maintainability"]["evaluations"],
+                    score_maintainability_suggestions=evaluation_result["nodescore"]["maintainability"]["suggestions"]
+                )
                 # print(f"Created NodeData for file: {tree_node}")
 
     except Exception as e:

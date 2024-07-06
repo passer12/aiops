@@ -2,6 +2,37 @@ from sparkAPI.IntelligentOps.sparkdesk_api.core import SparkAPI
 import sys
 import os
 
+import re
+
+def extract_code_review(message):
+    """
+    从给定的代码评审消息中提取评分、评价和建议。
+
+    参数:
+    message (str): 包含代码评审信息的字符串
+
+    返回:
+    dict: 包含'score'、'evaluation'和'suggestion'的字典
+    """
+    # 提取评分
+    score = re.search(r'评分为：(\d+)', message)
+    score = int(score.group(1)) if score else None
+
+    # 提取评价
+    evaluation = re.search(r'代码评价：(.*?)改进建议', message, re.DOTALL)
+    evaluation = evaluation.group(1).strip() if evaluation else None
+
+    # 提取建议
+    suggestion = re.search(r'改进建议：(.*)', message, re.DOTALL)
+    suggestion = suggestion.group(1).strip() if suggestion else None
+
+    return {
+        'score': score,
+        'evaluations': evaluation,
+        'suggestions': suggestion
+    }
+
+
 # # 获取上级目录的路径
 # parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 # # 将上级目录添加到sys.path中
@@ -62,6 +93,136 @@ class CodeAnalysisTool:
         query = "根据代码质量问题生成优化建议，问题如下:\n" + issue + "原代码如下：\n" + code
         query_result = self.ai_tool.chat(query)
         return query_result
+    
+    def score_readability(self, code):
+        """
+        评估代码的可读性，返回可读性分数。
+        """
+        query = "评分区间0-10，请你评估下方代码的可读性，返回可读性分数，代码如下:\n" + code
+        response_template = """
+        回答模板为：
+        “评分为：score
+        代码评价：evaluations
+        改进建议：suggestions”
+        """ 
+        query = query + response_template
+        query_result = self.ai_tool.chat(query)
+        # 在回答中提取分数
+        result = extract_code_review(query_result)
+        print(query_result)
+        print(result)
+        if result['score'] == None:
+            result['score'] = 0
+        if result['evaluations'] == None:
+            result['evaluations'] = "No"
+        if result['suggestions'] == None:
+            result['suggestions'] = "No"
+        
+        return result
+    
+    def score_performance(self, code):
+        """
+        评估代码的性能，返回性能分数。
+        """
+        query = "评分区间0-10，请你评估下方代码的性能，返回性能分数，代码如下:\n" + code
+        response_template = """
+        回答模板为：
+        “评分为：score
+        代码评价：evaluations
+        改进建议：suggestions”
+        """ 
+        query = query + response_template
+        query_result = self.ai_tool.chat(query)
+        # 在回答中提取分数
+        result = extract_code_review(query_result)
+        print(query_result)
+        print(result)
+        if result['score'] == None:
+            result['score'] = 0
+        if result['evaluations'] == None:
+            result['evaluations'] = "No"
+        if result['suggestions'] == None:
+            result['suggestions'] = "No"
+        
+        return result
+    
+    def score_usability(self, code):
+        """
+        评估代码的可用性，返回可用性分数。
+        """
+        query = "评分区间0-10，请你评估下方代码的可用性，返回可用性分数，代码如下:\n" + code
+        response_template = """
+        回答模板为：
+        “评分为：score
+        代码评价：evaluations
+        改进建议：suggestions”
+        """ 
+        query = query + response_template
+        query_result = self.ai_tool.chat(query)
+        # 在回答中提取分数
+        result = extract_code_review(query_result)
+        print(query_result)
+        print(result)
+        if result['score'] == None:
+            result['score'] = 0
+        if result['evaluations'] == None:
+            result['evaluations'] = "No"
+        if result['suggestions'] == None:
+            result['suggestions'] = "No"
+        
+        return result
+    
+    def score_security(self, code):
+        """
+        评估代码的安全性，返回安全性分数。
+        """
+        query = "评分区间0-10，请你评估下方代码的安全性，返回安全性分数，代码如下:\n" + code
+        response_template = """
+        回答模板为：
+        “评分为：score
+        代码评价：evaluations
+        改进建议：suggestions”
+        """ 
+        query = query + response_template
+        query_result = self.ai_tool.chat(query)
+        # 在回答中提取分数
+        result = extract_code_review(query_result)
+        print(query_result)
+        print(result)
+        if result['score'] == None:
+            result['score'] = 0
+        if result['evaluations'] == None:
+            result['evaluations'] = "No"
+        if result['suggestions'] == None:
+            result['suggestions'] = "No"
+        
+        return result
+    
+    def score_maintainability(self, code):
+        """
+        评估代码的可维护性，返回可维护性分数。
+        """
+        query = "评分区间0-10，请你评估下方代码的可维护性，返回可维护性分数，代码如下:\n" + code
+        response_template = """
+        回答模板为：
+        “评分为：score
+        代码评价：evaluations
+        改进建议：suggestions”
+        """ 
+        query = query + response_template
+        query_result = self.ai_tool.chat(query)
+        # 在回答中提取分数
+        result = extract_code_review(query_result)
+        print(query_result)
+        print(result)
+        if result['score'] == None:
+            result['score'] = 0
+        if result['evaluations'] == None:
+            result['evaluations'] = "No"
+        if result['suggestions'] == None:
+            result['suggestions'] = "No"
+        
+        return result
 
 class IntelligentOps:
     # 初始化
@@ -113,8 +274,69 @@ class IntelligentOps:
         evaluation_report = self.evaluate_code_quality(code)
         issues = self.analyze_code_issues(code)
         optimization_suggestions = self.generate_suggestions(code, issues)
+        
+        # 可读性
+        readability_data = self.code_analysis_tool.score_readability(code)
+        readability_score = readability_data["score"]
+        readability_evaluations = readability_data["evaluations"]
+        readability_suggestions = readability_data["suggestions"]
+        # 性能
+        performance_data = self.code_analysis_tool.score_performance(code)
+        performance_score = performance_data["score"]
+        performance_evaluations = performance_data["evaluations"]
+        performance_suggestions = performance_data["suggestions"]
+        # 可用性
+        usability_data = self.code_analysis_tool.score_usability(code)
+        usability_score = usability_data["score"]
+        usability_evaluations = usability_data["evaluations"]
+        usability_suggestions = usability_data["suggestions"]
+        # 安全性
+        security_data = self.code_analysis_tool.score_security(code)
+        security_score = security_data["score"]
+        security_evaluations = security_data["evaluations"]
+        security_suggestions = security_data["suggestions"]
+        # 可维护性
+        maintainability_data = self.code_analysis_tool.score_maintainability(code)
+        maintainability_score = maintainability_data["score"]
+        maintainability_evaluations = maintainability_data["evaluations"]
+        maintainability_suggestions = maintainability_data["suggestions"]
+        
         # output_result = "Evaluation Report: \n" + evaluation_report + "\n\n" + "Issues: \n" + issues + "\n\n" + "Optimization Suggestions: \n" + optimization_suggestions
-        output_result_dict = {"file_info":str(file_info), "quality": str(evaluation_report), "issues": str(issues), "suggestions": str(optimization_suggestions)}
+        output_result_dict = {
+            "file_info":str(file_info), 
+            "quality": str(evaluation_report), 
+            "issues": str(issues), 
+            "suggestions": str(optimization_suggestions),
+            "nodescore":{
+                "readability": {
+                    "score": readability_score,
+                    "evaluations": readability_evaluations,
+                    "suggestions": readability_suggestions
+                },
+                "performance": {
+                    "score": performance_score,
+                    "evaluations": performance_evaluations,
+                    "suggestions": performance_suggestions
+                },
+                "usability": {
+                    "score": usability_score,
+                    "evaluations": usability_evaluations,
+                    "suggestions": usability_suggestions
+                },
+                "security": {
+                    "score": security_score,
+                    "evaluations": security_evaluations,
+                    "suggestions": security_suggestions
+                },
+                "maintainability": {
+                    "score": maintainability_score,
+                    "evaluations": maintainability_evaluations,
+                    "suggestions": maintainability_suggestions
+                }
+            }            
+        }
+        # print(output_result_dict)
+        
         return output_result_dict
 
     def repo_analysis(self, repo_path):

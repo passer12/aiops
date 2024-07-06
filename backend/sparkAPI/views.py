@@ -14,11 +14,29 @@ sys.path.append(parent_dir)
 from IntelligentOps import IntelligentOps as intOps
 
 import returnJSON_Recursive
-from sparkAPI.models import TreeNode, NodeData
+from sparkAPI.models import TreeNode, NodeData, NodeScore
 from gitRepo.models import Repository
 from django.contrib.auth.models import User
 
 # Create your views here.
+
+from django.db.models import Avg, F
+
+def calculate_average_scores(repository):
+    # 获取指定Repository的所有TreeNode
+    nodes = TreeNode.objects.filter(repo=repository)
+    
+    # 计算每个评分维度的平均值
+    avg_scores = NodeScore.objects.filter(node__in=nodes).aggregate(
+        avg_readability=Avg('score_readability'),
+        avg_performance=Avg('score_performance'),
+        avg_usability=Avg('score_usability'),
+        avg_security=Avg('score_security'),
+        avg_maintainability=Avg('score_maintainability')
+    )
+    print(avg_scores)
+    
+    return avg_scores
 
 # 递归将节点转换为字典
 def node_to_dict(node):
@@ -31,11 +49,39 @@ def node_to_dict(node):
                 "content": data.content
             } for data in node.data.all()
         ],
+        "score": {
+            "readability": {
+                "score": node.score.score_readability,
+                "evaluations": node.score.score_readability_evaluations,
+                "suggestions": node.score.score_readability_suggestions
+            },
+            "performance": {
+                "score": node.score.score_performance,
+                "evaluations": node.score.score_performance_evaluations,
+                "suggestions": node.score.score_performance_suggestions
+            },
+            "security": {
+                "score": node.score.score_security,
+                "evaluations": node.score.score_security_evaluations,
+                "suggestions": node.score.score_security_suggestions
+            },
+            "usability": {
+                "score": node.score.score_usability,
+                "evaluations": node.score.score_usability_evaluations,
+                "suggestions": node.score.score_usability_suggestions
+            },
+            "maintainability": {
+                "score": node.score.score_maintainability,
+                "evaluations": node.score.score_maintainability_evaluations,
+                "suggestions": node.score.score_maintainability_suggestions
+            }
+        },
         "children": [node_to_dict(child) for child in node.children.all()]
     }
     
     if not node_dict["children"]:
         del node_dict["children"]
+
     
     return node_dict
 
@@ -52,6 +98,7 @@ def generate_repo_json(repo):
         "repo_name": repo.Name,
         "repo_description": repo.Description,
         "repo_url": repo.Link,
+        "repo_score" : calculate_average_scores(repo),
         "root": tree
     }
     
@@ -110,6 +157,7 @@ def generate_target_repos_json_secure(request):
     Owner_id = user.id
     
     # 更新配置
+    # 获取参数
     print(user.config)
     app_id = user.config.app_id
     api_secret = user.config.api_secret
@@ -117,7 +165,6 @@ def generate_target_repos_json_secure(request):
     version = user.config.version
     max_tokens = user.config.max_tokens
     temperature = user.config.temperature
-    
     returnJSON_Recursive.update_aiOps_config(api_key=api_key, api_secret=api_secret, app_id=app_id, version=version, max_tokens=max_tokens, temperature=temperature)
     
     access_token = user.profile.access_token
@@ -152,7 +199,8 @@ def generate_target_repos_json_secure(request):
                 print(f"Newly created repository: {repo}")
             
             json_output = generate_repo_json(repo)
-            print(json_output)
+            # print(json_output)
+            
             return JsonResponse(json_output, safe=False)
     except Exception as e:
         print(f"Error: {e}")
@@ -192,11 +240,58 @@ def view_target_repos_json_secure(request):
                 return JsonResponse({'error': 'Reponsitory does not exist.'}, status=400)
             
             json_output = generate_repo_json(repo)
-            print(json.loads(json_output))
+            # print(json.loads(json_output))
             return JsonResponse(json.loads(json_output), safe=False)
     except Exception as e:
         print(f"Error: {e}")
         return JsonResponse({'error': 'Internal server error.'}, status=500)
+
+# 获取文件评分信息
+@api_view(['GET'])
+def get_file_score(request):
+    # 验证JWT令牌，考虑在每一个请求前都加上这个验证
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+    
+    if user is None:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+    
+    node_id = request.GET.get('node_id', '')
+    print(f"Node ID: {node_id}")
+    TargetNode = TreeNode.objects.get(id=node_id)
+    TargetNodeScore = NodeScore.objects.get(node=TargetNode)
+    
+    return_dict = {
+        "readability": {
+            "score": TargetNodeScore.score_readability,
+            "evaluations": TargetNodeScore.score_readability_evaluations,
+            "suggestions": TargetNodeScore.score_readability_suggestions
+            },
+        "performance":{
+            "score":TargetNodeScore.score_performance,
+            "evaluations":TargetNodeScore.score_performance_evaluations,
+            "suggestions":TargetNodeScore.score_performance_suggestions
+            },
+        "security":{
+            "score":TargetNodeScore.score_security,
+            "evaluations":TargetNodeScore.score_security_evaluations,
+            "suggestions":TargetNodeScore.score_security_suggestions
+            },
+        "usability":{
+            "score":TargetNodeScore.score_usability,
+            "evaluations":TargetNodeScore.score_usability_evaluations,
+            "suggestions":TargetNodeScore.score_usability_suggestions
+            },
+        "maintainability":{
+            "score":TargetNodeScore.score_maintainability,
+            "evaluations":TargetNodeScore.score_maintainability_evaluations,
+            "suggestions":TargetNodeScore.score_maintainability_suggestions
+            }
+        }
+    
+    json_output = json.dumps(return_dict, cls=DjangoJSONEncoder, ensure_ascii=False, indent=2)
+    
+    return JsonResponse(json_output, safe=False)
 
 #--------------------------------------------------------------------------
 
