@@ -21,6 +21,11 @@ const router = createRouter({
                     component: () => import('@/views/pages/evaluation/home.vue')
                 },
                 {
+                    path: '/pages/home_file',
+                    name: 'home_file',
+                    component: () => import('@/views/pages/evaluation/home_file.vue')
+                },
+                {
                     path: '/uikit/result',
                     name: 'result',
                     component: () => import('@/views/pages/evaluation/Evaluate.vue')
@@ -157,6 +162,36 @@ const router = createRouter({
                     path: '/pages/rating_detail',
                     name: 'rating_detail',
                     component: () => import('@/views/pages/evaluation/rating_detail.vue')
+                },
+                {
+                    path: '/pages/rating_detail_file',
+                    name: 'rating_detail_file',
+                    component: () => import('@/views/pages/evaluation/rating_detail_file.vue')
+                },
+                {
+                    path: '/pages/rating_detail_file_use',
+                    name: 'rating_detail_file_use',
+                    component: () => import('@/views/pages/evaluation/rating_detail_file_use.vue')
+                },
+                {
+                    path: '/pages/rating_detail_file_safe',
+                    name: 'rating_detail_file_safe',
+                    component: () => import('@/views/pages/evaluation/rating_detail_file_safe.vue')
+                },
+                {
+                    path: '/pages/rating_detail_file_main',
+                    name: 'rating_detail_file_main',
+                    component: () => import('@/views/pages/evaluation/rating_detail_file_main.vue')
+                },
+                {
+                    path: '/pages/rating_detail_file_perf',
+                    name: 'rating_detail_file_perf',
+                    component: () => import('@/views/pages/evaluation/rating_detail_file_perf.vue')
+                },
+                {
+                    path: '/pages/rating_detail_file_read',
+                    name: 'rating_detail_file_read',
+                    component: () => import('@/views/pages/evaluation/rating_detail_file_read.vue')
                 },
                 {
                     path: '/pages/chat',

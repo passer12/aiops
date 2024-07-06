@@ -3,110 +3,53 @@ import { onMounted, ref, watch } from 'vue';
 import { ProductService } from '@/service/ProductService';
 import { useLayout } from '@/layout/composables/layout';
 import Breadcrumb from 'primevue/breadcrumb';
-import axios from 'axios';
-const token = localStorage.getItem('token');
+
 import Rating_tag from '@/views/sakai/utilities/rating_tag.vue';
 import Evaluate from '@/views/pages/evaluation/Evaluate.vue';
 const { isDarkTheme } = useLayout();
 const status = ref(null);
 status.value = { repo_num: 10 };
 
-// 设置默认的Authorization头，自动附带认证头
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+// const file_score = JSON.parse(window.localStorage.getItem('file_score'));
 
-const lineOptions = ref(null);
-
-// const repo_score = ref(null);
-// const repo_url = window.localStorage.getItem('repo_url');
-// const fetchFileInfo = async () => {
-//     console.log('================================fetchFileInfo================================');
-//     axios
-//         .get('/api/spark/view_repo_json_secure/', {
-//             params: {
-//                 repo_url: repo_url
-//             }
-//         })
-//         .then((response) => {
-//             repo_score.value = response.data.repo_score;
-//             console.log('repo_score', repo_score.value);
-//         })
-//         .catch((error) => {
-//             console.error('Error fetching file info:', error);
-//         });
-// };
-// onMounted(fetchFileInfo);
+// const fileScoreString = window.localStorage.getItem('file_score');
+// console.log('Retrieved string:', fileScoreString);
+// const file_score = JSON.parse(fileScoreString);
+// console.log('Parsed object:', file_score);
 
 // const overallRates = ref([
-//     { label: '可读性评分', value: repo_score.value.avg_readability },
-//     { label: '性能评分', value: repo_score.value.avg_performance },
-//     { label: '可用性评分', value: repo_score.value.avg_usability },
-//     { label: '安全性评分', value: repo_score.value.avg_security },
-//     { label: '可维护性评分', value: repo_score.value.avg_maintainability }
+//     { label: '可读性评分', value: file_score.readability.score },
+//     { label: '性能评分', value: file_score.performance.score },
+//     { label: '可用性评分', value: file_score.availability.score },
+//     { label: '安全性评分', value: file_score.security.score },
+//     { label: '可维护性评分', value: file_score.maintainability.score }
 // ]);
 
 import { computed } from 'vue';
 
-const repo_score = ref(null);
-const repo_url = window.localStorage.getItem('repo_url');
+// 先创建一个响应式对象来存储 file_score
+const fileScoreData = ref(null);
 
-const fetchFileInfo = async () => {
-    console.log('================================fetchFileInfo================================');
-    try {
-        const response = await axios.get('/api/spark/view_repo_json_secure/', {
-            params: { repo_url: repo_url }
-        });
-        repo_score.value = response.data.repo_score;
-        console.log('repo_score', repo_score.value);
-    } catch (error) {
-        console.error('Error fetching file info:', error);
-    }
-};
-
-onMounted(fetchFileInfo);
-
-const overallRates = computed(() => {
-    if (!repo_score.value) return [];
-    
-    return [
-        { label: '可读性评分', value: repo_score.value.avg_readability },
-        { label: '性能评分', value: repo_score.value.avg_performance },
-        { label: '可用性评分', value: repo_score.value.avg_usability },
-        { label: '安全性评分', value: repo_score.value.avg_security },
-        { label: '可维护性评分', value: repo_score.value.avg_maintainability }
-    ];
+// 在适当的时机（比如 onMounted 钩子中）获取并设置数据
+onMounted(() => {
+  const fileScoreString = window.localStorage.getItem('file_score');
+  fileScoreData.value = JSON.parse(fileScoreString);
 });
 
-// const overallRates = ref([
-//     { label: '可读性评分', value: 1 },
-//     { label: '性能评分', value: 1 },
-//     { label: '可用性评分', value: 1 },
-//     { label: '安全性评分', value: 1 },
-//     { label: '可维护性评分', value: 1 }
-// ]);
-
-// import { computed } from 'vue';
-
-// // 先创建一个响应式对象来存储 file_score
-// const repoScoreData = ref(null);
-
-// // 在适当的时机（比如 onMounted 钩子中）获取并设置数据
-// onMounted(() => {
-//   const repoScoreData = repo_score;
-// });
-
-// // 使用计算属性创建 overallRates
-// const overallRates = computed(() => {
-//   if (!repoScoreData.value) return [];
+// 使用计算属性创建 overallRates
+const overallRates = computed(() => {
+  if (!fileScoreData.value) return [];
   
-//   return [
-//     { label: '可读性评分', value: repoScoreData.value?.avg_readability },
-//     { label: '性能评分', value: repoScoreData.value?.avg_performance },
-//     { label: '可用性评分', value: repoScoreData.value?.avg_usability },
-//     { label: '安全性评分', value: repoScoreData.value?.avg_security },
-//     { label: '可维护性评分', value: repoScoreData.value?.avg_maintainability }
-//   ];
-// });
+  return [
+    { label: '可读性评分', value: fileScoreData.value.readability?.score },
+    { label: '性能评分', value: fileScoreData.value.performance?.score },
+    { label: '可用性评分', value: fileScoreData.value.usability?.score },
+    { label: '安全性评分', value: fileScoreData.value.security?.score },
+    { label: '可维护性评分', value: fileScoreData.value.maintainability?.score }
+  ];
+});
 
+const lineOptions = ref(null);
 
 onMounted(() => {
     // productService.getProducts().then((data) => (products.value = data));
@@ -204,8 +147,18 @@ const items = ref([{ label: window.localStorage.getItem('username'), url: '/page
                         <div class="card mb-0">
                             <div class="flex justify-content-between mb-3">
                                 <div>
-                                    <router-link :to="{ name: 'rating_detail' }" class="block text-500 font-medium mb-3">
+                                    <!-- <router-link :to="{ name: 'rating_detail_file' }" class="block text-500 font-medium mb-3">
                                         {{ rate.label }}
+                                    </router-link> -->
+                                    <router-link 
+                                    :to="rate.label === '可读性评分' ? { name: 'rating_detail_file_read' } : 
+                                        rate.label === '性能评分' ? { name: 'rating_detail_file_perf' } : 
+                                        rate.label === '可用性评分' ? { name: 'rating_detail_file_use' } : 
+                                        rate.label === '安全性评分' ? { name: 'rating_detail_file_safe' } : 
+                                        rate.label === '可维护性评分' ? { name: 'rating_detail_file_main' } : 
+                                        { name: 'rating_detail_file' }" 
+                                    class="block text-500 font-medium mb-3">
+                                    {{ rate.label }}
                                     </router-link>
                                     <div class="text-900 font-medium text-xl">{{ rate.value }}</div>
                                 </div>

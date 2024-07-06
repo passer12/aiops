@@ -46,9 +46,10 @@ const evaluate_request = (repo) => {
 
 const redirect_to_result = (repo) => {
     console.log('查看结果');
-    alert('跳转到结果界面');
-    window.localStorage.setItem('repo_url', repo.Link); //后端不完备，暂时出此下策
+    // alert('跳转到结果界面');
+    window.localStorage.setItem('repo_url', repo.Link); 
     window.localStorage.setItem('repo_name', repo.Name);
+    // window.localStorage.setItem('repo_score', repo.score);
     window.location.href = '/pages/home';
 };
 </script>
