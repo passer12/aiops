@@ -15,4 +15,4 @@ COPY . .
 
 # 运行 Django 迁移和启动服务
 EXPOSE 8000
-CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "export DJANGO_SUPERUSER_PASSWORD='admin' && python manage.py createsuperuser --username admin --email admin@example.com --noinput && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]

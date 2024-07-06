@@ -7,9 +7,9 @@ from django.db import models
 
 
 class UserConfig(models.Model):
-    app_id = models.CharField(max_length=255)
-    api_secret = models.CharField(max_length=255)
-    api_key = models.CharField(max_length=255)
+    app_id = models.CharField(max_length=255,default="e8bd2492")
+    api_secret = models.CharField(max_length=255,default="MGY1MjIzMDk1MTQ4Y2U1YzUxMWI5Yzk1")
+    api_key = models.CharField(max_length=255,default="28b98e55ec8e83daddf1e591952e2614")
     version = models.FloatField(default="1.0")
     max_tokens = models.IntegerField(default=4096)
     temperature = models.FloatField(default=0.5)
