@@ -58,7 +58,7 @@ const saveProduct = () => {
         .post('/api/repos/', formDate)
         .then((response) => {
             console.log(response);
-            toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+            toast.add({ severity: 'success', summary: 'Successful', detail: 'repos Created', life: 3000 });
             productDialog.value = false;
             product.value = {};
         })
@@ -86,7 +86,7 @@ const updateProduct = () => {
         .patch('/api/repos/' + product.value.RepositoryID + '/', formDate)
         .then((response) => {
             console.log(response);
-            toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+            toast.add({ severity: 'success', summary: 'Successful', detail: 'repos Created', life: 3000 });
             productDialog.value = false;
             product.value = {};
             location.reload();
@@ -141,7 +141,7 @@ const deleteSelectedProducts = () => {
     }
     deleteProductsDialog.value = false;
     selectedProducts.value = null;
-    toast.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+    toast.add({ severity: 'success', summary: 'Successful', detail: 'repos Deleted', life: 3000 });
 };
 
 const initFilters = () => {

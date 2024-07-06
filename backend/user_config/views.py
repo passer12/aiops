@@ -40,7 +40,6 @@ def config(request):
                                 'temperature': config_data['temperature'],
                                 'owner': user.pk}
             # 为repo_data添加一个Owner字段,但是由于他是QueryDick类型，所以不能直接添加
-            # print(repo_data)
             config_serializer = ConfigSerializer(data=new_config_data)
 
             if config_serializer.is_valid():

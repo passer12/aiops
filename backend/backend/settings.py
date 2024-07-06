@@ -92,28 +92,28 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 # ftre
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sakai',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '3306',
-    }
-}
-
-# # wzh
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'sakai2',
+#         'NAME': 'sakai',
 #         'USER': 'root',
-#         'PASSWORD': '123456',
+#         'PASSWORD': 'root',
 #         'HOST': 'localhost',
-#         'PORT': '33060',
+#         'PORT': '3306',
 #     }
 # }
+
+# # wzh
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sakai2',
+        'USER': 'root',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+        'PORT': '33060',
+    }
+}
 
 # sqlite
 # DATABASES = {
