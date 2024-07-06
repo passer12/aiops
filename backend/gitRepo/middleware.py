@@ -10,11 +10,11 @@ class UserActionMiddleware:
     def __call__(self, request):
         # 在请求处理之前读取并存储请求体的数据
         payload = None
-        if request.method in ['POST','PATCH'] and request.content_type == 'application/json':
+        if request.method in ['POST', 'PATCH'] and request.content_type == 'application/json':
             payload = json.loads(request.body.decode('utf-8'))
         response = self.get_response(request)
 
-        if request.user.is_authenticated:
+        if request.user.is_authenticated and request.method != 'DELETE': # 因为DELETE单独处理了
             if request.method == 'POST':
                 try:
                     if request.content_type == 'application/json':

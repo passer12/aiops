@@ -13,7 +13,12 @@ const router = createRouter({
                 {
                     path: '/dashboard',
                     name: 'dashboard',
-                    component: () => import('@/views/sakai/Dashboard.vue')
+                    component: () => import('@/views/pages/dashboard.vue')
+                },
+                {
+                    path: '/pages/home',
+                    name: 'home',
+                    component: () => import('@/views/pages/evaluation/home.vue')
                 },
                 {
                     path: '/uikit/result',
@@ -129,21 +134,6 @@ const router = createRouter({
                     component: () => import('@/views/sakai/utilities/Icons.vue')
                 },
                 {
-                    path: '/pages/timeline',
-                    name: 'timeline',
-                    component: () => import('@/views/pages/Timeline.vue')
-                },
-                {
-                    path: '/pages/empty',
-                    name: 'empty',
-                    component: () => import('@/views/pages/Empty.vue')
-                },
-                {
-                    path: '/pages/crud',
-                    name: 'crud',
-                    component: () => import('@/views/pages/Crud.vue')
-                },
-                {
                     path: '/pages/repocrud',
                     name: 'repocrud',
                     component: () => import('@/views/pages/repo/RepoCrud.vue')
@@ -175,7 +165,7 @@ const router = createRouter({
                 },
                 {
                     path: '/pages/history',
-                    name: 'chat',
+                    name: 'history',
                     component: () => import('@/views/pages/history/history.vue')
                 },
                 {

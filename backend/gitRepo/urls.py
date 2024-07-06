@@ -7,7 +7,6 @@ urlpatterns = [
     path('', views.repos, name='index'),
     path('<int:repo_id>/', views.repos_detail, name='repos_detail'),
 
-    path('history/',views.UserActionHistory,name='UserActionHistory'),
-
+    path('history/',views.UserActionHistory, name='UserActionHistory'),
 
 ]

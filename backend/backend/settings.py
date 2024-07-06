@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'gitRepo',
     'user_profile',  # 处理用户的profile信息配置
     'sparkAPI',
-    #'simple_history',  # 记录用户操作记录的
 ]
 
 MIDDLEWARE = [
@@ -82,11 +81,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sakai',
+        'NAME': 'sakai2',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
-        'PORT': '3306',
+        'PORT': '33060',
     }
 }
 # DATABASES = {

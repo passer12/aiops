@@ -40,10 +40,11 @@ const logoUrl = computed(() => {
 
 const onTopBarMenuButton = () => {
     topbarMenuActive.value = !topbarMenuActive.value;
+    router.push('/pages/history');
 };
 const onSettingsClick = () => {
     topbarMenuActive.value = false;
-    router.push('/documentation');
+    router.push('/pages/config');
 };
 const topbarMenuClasses = computed(() => {
     return {

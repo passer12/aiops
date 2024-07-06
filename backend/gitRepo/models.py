@@ -11,6 +11,8 @@ class Repository(models.Model):
     Link = models.URLField(blank=True)
     CreateTime = models.DateTimeField(auto_now_add=True)
     Owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    # 增加评估状态
+    status = models.CharField(max_length=20, default='未评估')
 
     def __str__(self):
         return self.Name
@@ -21,7 +23,7 @@ class UserAction(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='actions')
     action = models.CharField(max_length=255)
     method = models.CharField(max_length=10, blank=True)  # 新增字段存储HTTP方法
-    status_code = models.IntegerField()       # 新增字段存储响应状态码
+    status_code = models.IntegerField(default=0)       # 新增字段存储响应状态码
     timestamp = models.DateTimeField(auto_now_add=True)
     payload = models.TextField(null=True, blank=True)  # 新增字段存储payload
 

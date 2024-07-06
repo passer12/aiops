@@ -2,6 +2,7 @@ from github import Github
 import json
 import os, sys
 from django.db import transaction
+import re
 
 parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '.'))
 sys.path.append(parent_dir)
@@ -18,6 +19,23 @@ spark_aiOps = intOps.IntelligentOps(code_analysis_tool)
 os.environ["HTTP_PROXY"] = "127.0.0.1:7890"
 os.environ["HTTPS_PROXY"] = "127.0.0.1:7890"
 
+
+def clean_date(input_string):
+    # 使用正则表达式匹配表情符号和其他特殊字符
+    cleaned_string = re.sub(r'[\U0001F600-\U0001F64F]', '', input_string)  # Emoticons
+    cleaned_string = re.sub(r'[\U0001F300-\U0001F5FF]', '', cleaned_string)  # Misc Symbols and Pictographs
+    cleaned_string = re.sub(r'[\U0001F680-\U0001F6FF]', '', cleaned_string)  # Transport and Map Symbols
+    cleaned_string = re.sub(r'[\U0001F700-\U0001F77F]', '', cleaned_string)  # Alchemical Symbols
+    cleaned_string = re.sub(r'[\U0001F780-\U0001F7FF]', '', cleaned_string)  # Geometric Shapes Extended
+    cleaned_string = re.sub(r'[\U0001F800-\U0001F8FF]', '', cleaned_string)  # Supplemental Arrows-C
+    cleaned_string = re.sub(r'[\U0001F900-\U0001F9FF]', '', cleaned_string)  # Supplemental Symbols and Pictographs
+    cleaned_string = re.sub(r'[\U0001FA00-\U0001FA6F]', '', cleaned_string)  # Chess Symbols
+    cleaned_string = re.sub(r'[\U0001FA70-\U0001FAFF]', '', cleaned_string)  # Symbols and Pictographs Extended-A
+    cleaned_string = re.sub(r'[\U00002702-\U000027B0]', '', cleaned_string)  # Dingbats
+    cleaned_string = re.sub(r'[\U000024C2-\U0001F251]', '', cleaned_string)  # Enclosed Characters
+    return cleaned_string
+
+
 # 更改aiOps配置
 def change_aiOps_config(app_id, api_secret, api_key, version, max_token, temperature):
     spark_aiOps.code_analysis_tool.ai_tool.update_config(app_id, api_secret, api_key, version, max_token, temperature)
@@ -33,10 +51,9 @@ def evaluate_store_repo(repo, repo_object, parent_node=None, path=""):
     print("evaluate_store_repo called with path:", path)
     try:
         contents = repo.get_contents(path)
-        
+        print(contents)
         for content in contents:
             print(f"Processing content: {content.path}, type: {content.type}")
-            
             if content.type == "dir":
                 tree_node = TreeNode.objects.create(
                     repo=repo_object,
@@ -48,8 +65,9 @@ def evaluate_store_repo(repo, repo_object, parent_node=None, path=""):
                 evaluate_store_repo(repo, repo_object, tree_node, content.path)
             else:
                 file_content = content.decoded_content.decode()
+                file_content = clean_date(file_content)
                 evaluation_result = evaluate_file(file_content)
-                # evaluation_result = {"file_info": "当前选择为文件", "quality": "当前选择为文件", "issues": "当前选择为文件", "suggestions": "当前选择为文件"}
+                #evaluation_result = {"file_info": "当前选择为文件", "quality": "当前选择为文件", "issues": "当前选择为文件", "suggestions": "当前选择为文件"}
                 tree_node = TreeNode.objects.create(
                     repo=repo_object,
                     key=content.path,
