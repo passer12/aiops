@@ -204,7 +204,7 @@ const items = ref([{ label: window.localStorage.getItem('username'), url: '/page
                         <div class="card mb-0">
                             <div class="flex justify-content-between mb-3">
                                 <div>
-                                    <router-link :to="{ name: 'rating_detail' }" class="block text-500 font-medium mb-3">
+                                    <router-link  class="block text-500 font-medium mb-3">
                                         {{ rate.label }}
                                     </router-link>
                                     <div class="text-900 font-medium text-xl">{{ rate.value }}</div>

@@ -39,7 +39,7 @@ const handleSubmit = () => {
     };
     console.log(form_data);
     axios
-        .get('/api/spark/update_aiOps_config/', { params: form_data })
+        .patch('/api/config/', form_data )
         .then((response) => {
             console.log(response);
             toast.add({ severity: 'success', summary: '成功', detail: '配置已更新', life: 3000 });

@@ -21,7 +21,6 @@ def config(request):
         try:
             # 获取用户的配置信息
             user_config = ConfigSerializer(user.config)
-            print(user_config.data)
             return JsonResponse(user_config.data, safe=False)
 
         except UserConfig.DoesNotExist:
