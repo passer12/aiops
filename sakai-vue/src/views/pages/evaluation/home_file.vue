@@ -141,7 +141,7 @@ const items = ref([{ label: window.localStorage.getItem('username'), url: '/page
     <p></p>
     <div class="card">
         <TabView>
-            <TabPanel key="rating" header="总体评分">
+            <TabPanel key="rating" header="文件评分">
                 <div class="grid">
                     <div class="col-12 md:col-4 lg:col-4 xl:col-4" v-for="(rate, index) in overallRates" :key="index">
                         <div class="card mb-0">
@@ -171,9 +171,9 @@ const items = ref([{ label: window.localStorage.getItem('username'), url: '/page
                     </div>
                 </div>
             </TabPanel>
-            <TabPanel key="fileinfo" header="文件评估">
+            <!-- <TabPanel key="fileinfo" header="文件评估">
                 <Evaluate></Evaluate>
-            </TabPanel>
+            </TabPanel> -->
         </TabView>
     </div>
 </template>

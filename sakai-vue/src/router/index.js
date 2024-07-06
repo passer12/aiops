@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AppLayout from '@/layout/AppLayout.vue';
 import axios from 'axios';
-import admin from '@/views/pages/admin/admin.vue';
+// import admin from '@/views/pages/admin/admin.vue';
 
 const router = createRouter({
     history: createWebHistory(),
