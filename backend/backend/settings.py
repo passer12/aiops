@@ -91,27 +91,27 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'sakai',
-#         'USER': 'root',
-#         'PASSWORD': 'root',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sakai2',
+        'NAME': 'sakai',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
-        'PORT': '3306-',
+        'PORT': '3306',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sakai2',
+#         'USER': 'root',
+#         'PASSWORD': '123456',
+#         'HOST': 'localhost',
+#         'PORT': '3306-',
+#     }
+# }
 
 
 # DATABASES = {
