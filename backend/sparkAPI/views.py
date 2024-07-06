@@ -106,7 +106,11 @@ def generate_target_repos_json_secure(request):
                 # 已经存在，重新生成
                 repo = Repository.objects.get(Link=target_repo_url, Owner=target_owner)
                 print(f"Repository found: {repo}")
+                repo.status = "评估中"
+                repo.save()
                 repo = returnJSON_Recursive.evaluate_repo(target_repo_url, access_token, Owner_id)
+                repo.status = "已评估"
+                repo.save()
             except Repository.DoesNotExist:
                 # 不存在，创建并生成
                 print("Repository does not exist, evaluating repo...")

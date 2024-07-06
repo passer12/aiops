@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'gitRepo',
     'user_profile',  # 处理用户的profile信息配置
     'sparkAPI',
-    #'simple_history',  # 记录用户操作记录的
 ]
 
 MIDDLEWARE = [
@@ -79,17 +78,29 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+#
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'sakai',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': 'db',  # 使用docker-compose服务名
+#         'PORT': '3306',
+#     }
+# }
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sakai',
+        'NAME': 'sakai2',
         'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'db',  # 使用docker-compose服务名
-        'PORT': '3306',
+        'PASSWORD': '123456',
+        'HOST': 'localhost',
+        'PORT': '33060',
     }
 }
+
 
 # DATABASES = {
 #     'default': {
@@ -134,8 +145,8 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
-USE_TZ = True
+# 固定当前时区
+USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/

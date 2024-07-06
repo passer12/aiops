@@ -122,6 +122,7 @@ const saveProfile = () => {
         </div>
         <div class="field">
             <label for="Token">github token</label>
+            <!--            <Password id="Token" v-model="userprofile_copy.access_token" required="true" rows="3" cols="20" />-->
             <Textarea id="Token" v-model="userprofile_copy.access_token" required="true" rows="3" cols="20" />
         </div>
         <template #footer>

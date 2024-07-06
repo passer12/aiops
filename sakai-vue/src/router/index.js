@@ -13,7 +13,12 @@ const router = createRouter({
                 {
                     path: '/dashboard',
                     name: 'dashboard',
-                    component: () => import('@/views/sakai/Dashboard.vue')
+                    component: () => import('@/views/pages/dashboard.vue')
+                },
+                {
+                    path: '/pages/home',
+                    name: 'home',
+                    component: () => import('@/views/pages/evaluation/home.vue')
                 },
                 {
                     path: '/uikit/result',
@@ -157,6 +162,16 @@ const router = createRouter({
                     path: '/pages/chat',
                     name: 'chat',
                     component: () => import('@/views/pages/Chat.vue')
+                },
+                {
+                    path: '/pages/history',
+                    name: 'history',
+                    component: () => import('@/views/pages/history/history.vue')
+                },
+                {
+                    path: '/pages/config',
+                    name: 'config',
+                    component: () => import('@/views/pages/config.vue')
                 },
                 {
                     path: '/documentation',

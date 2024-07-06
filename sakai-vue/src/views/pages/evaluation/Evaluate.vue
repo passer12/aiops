@@ -46,13 +46,20 @@ const handleNodeSelected = (node) => {
 
     console.log('Node selected');
 };
+const chatit = () => {
+    console.log('chat it');
+    window.location = '/pages/Chat';
+};
 </script>
 
 <template>
     <div class="evaluate-container">
         <div class="info-container">
-            <p v-if="selectedNode">当前选中文件为：{{ selectedNode.key }}</p>
-            <p v-else>请选择一个文件</p>
+            <div style="display: flex; flex-direction: row; justify-content: space-between">
+                <p v-if="selectedNode">当前选中文件为：{{ selectedNode.key }}</p>
+                <p v-else>请选择一个文件</p>
+                <Button @click="chatit" label="chat it" rounded></Button>
+            </div>
         </div>
         <div class="main-container">
             <div class="left-side">
@@ -67,7 +74,7 @@ const handleNodeSelected = (node) => {
 
 <style>
 .evaluate-container {
-    height: 100vh;
+    height: 130vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -107,5 +114,6 @@ const handleNodeSelected = (node) => {
 .right-side {
     width: 60%;
     background-color: #ffffff;
+    overflow-y: scroll;
 }
 </style>

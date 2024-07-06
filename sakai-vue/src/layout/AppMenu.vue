@@ -6,16 +6,7 @@ import AppMenuItem from './AppMenuItem.vue';
 const model = ref([
     {
         label: 'Home',
-        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '' }]
-    },
-    {
-        label: '评估结果',
-        items: [{ label: '最近记录', icon: 'pi pi-fw pi-home', to: '/dashboard',
-            items:[
-            { label: 'repo1', icon: 'pi pi-fw pi-home', to: { path: '/dashboard', query: { repo: 'repo1' } } },
-            { label: 'repo2', icon: 'pi pi-fw pi-home', to: { path: '/dashboard', query: { repo: 'repo2' } } },
-            { label: 'repo3', icon: 'pi pi-fw pi-home', to: { path: '/dashboard', query: { repo: 'repo3' } } }
-        ]}]
+        items: [{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/dashboard' }]
     },
     {
         label: '个人仓库',
@@ -26,7 +17,16 @@ const model = ref([
     },
     {
         label: '个人资料',
-        items: [{ label: '个人资料', icon: 'pi pi-fw pi-chart-bar', to: '/pages/profile' }]
+        items: [
+            { label: '个人资料', icon: 'pi pi-fw pi-chart-bar', to: '/pages/profile' },
+            { label: '模型配置', icon: 'pi pi-fw pi-chart-bar', to: '/pages/config' }
+        ]
+    },
+    {
+        label: '历史记录',
+        items: [
+            { label: '操作记录', icon: 'pi pi-fw pi-calendar', to: '/pages/history' }
+        ]
     }
     // {
     //     label: '功能',

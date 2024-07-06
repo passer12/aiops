@@ -1,9 +1,11 @@
 <script>
 import TabView from 'primevue/tabview';
 import TabPanel from 'primevue/tabpanel';
+import { marked } from 'https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js';
+// import 'highlight.js/styles/github.css';
 
 export default {
-    components: { TabView, TabPanel },
+    components: { TabView, TabPanel, marked },
     props: ['selectNode'],
     watch: {
         selectNode(newValue) {
@@ -13,6 +15,11 @@ export default {
                 this.tabs = newValue.data;
                 // this.tabs = newValue;
                 // 在这里可以处理 fileinfo 的逻辑
+                this.tabs.forEach((tab) => {
+                    tab.content = marked.parse(tab.content);
+                });
+                // console.log('before', this.tabs[0].content)
+                // console.log('after', marked.parse(this.tabs[0].content));
             }
         }
     },
@@ -33,8 +40,8 @@ export default {
     <div class="card">
         <TabView>
             <TabPanel v-for="tab in tabs" :key="tab.title" :header="tab.title">
-                <!--                <pre class="m-0">{{ tab.content }}</pre> 文本中带有换行符-->
-                <p class="m-0">{{ tab.content }}</p>
+                <p class="m-0" v-html="tab.content"></p>
+                <!--              代码块不会换行，但是不打算改了-->
             </TabPanel>
         </TabView>
     </div>

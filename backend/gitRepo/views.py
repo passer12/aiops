@@ -6,12 +6,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.shortcuts import render,HttpResponse
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-
-# 原本是调用别人写好的api接口，但是自定义较为复杂，所以基本上是用不到，可以删除
-# class RepoViewSet(viewsets.ModelViewSet):
-#     queryset = Repository.objects.all()
-#     serializer_class = RepositorySerializer
-
+from .models import UserAction
+from datetime import datetime
 
 # 获取用户的所有仓库，以及创建新的
 @api_view(['GET', 'POST'])
@@ -95,6 +91,15 @@ def repos_detail(request, repo_id):
         # 删除仓库
         try:
             repo = Repository.objects.get(RepositoryID=repo_id, Owner=user.pk)
+
+            # 在删除仓库之前，记录用户操作
+            UserAction.objects.create(
+                user=request.user,
+                action=f"Accessed {request.path}",
+                method=request.method,
+                status_code=204,
+                payload=repo.Name
+            )
             repo.delete()
             return JsonResponse({'message': 'Repository deleted successfully'}, status=204)
 
@@ -116,3 +121,60 @@ def UserActionList(request):
     user_actions = user.actions.values()
 
     return JsonResponse(list(user_actions), safe=False)
+
+def UserActionHistory(request):
+    # 验证JWT令牌
+    jwt_authenticator = JWTAuthentication()
+    user, token = jwt_authenticator.authenticate(request)
+
+    if not user:
+        return JsonResponse({'error': 'Invalid token'}, status=401)
+
+    # 获取当前日期
+    today = datetime.now().date()
+
+    # 获取用户的所有操作记录中 action 字段包含 "/api/repos/"，method 为 POST, PATCH 或 DELETE 的记录
+    user_actions = UserAction.objects.filter(
+        user=user,
+        action__contains='/api/repos/',
+        method__in=['POST', 'PATCH', 'DELETE']
+    ).order_by('-timestamp')
+
+    # 分离今天的记录和之前的记录
+    today_actions = []
+    before_actions = []
+
+    for action in user_actions:
+        if action.timestamp.date() == today:
+            today_actions.append(action)
+        else:
+            before_actions.append(action)
+
+    # 序列化记录
+    today_actions_data = [
+        {
+            'action': action.action,
+            'method': action.method,
+            'status_code': action.status_code,
+            'payload': action.payload,
+            'timestamp': action.timestamp
+        }
+        for action in today_actions
+    ]
+
+    before_actions_data = [
+        {
+            'action': action.action,
+            'method': action.method,
+            'status_code': action.status_code,
+            'payload': action.payload,
+            'timestamp': action.timestamp
+        }
+        for action in before_actions
+    ]
+
+    # 返回 JSON 响应
+    return JsonResponse({
+        'today': today_actions_data,
+        'before': before_actions_data
+    })
