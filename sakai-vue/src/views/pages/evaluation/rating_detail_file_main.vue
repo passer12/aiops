@@ -17,7 +17,7 @@ const file_score = JSON.parse(window.localStorage.getItem('file_score'));
 console.log('file_score', file_score);
 console.log('file_score', file_score.maintainability.score);
 
-const rating = ref(50)
+const rating = ref(10*file_score.maintainability.score)
 </script>
 
 <template>

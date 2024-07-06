@@ -118,6 +118,11 @@ class CodeAnalysisTool:
         if result['suggestions'] == None:
             result['suggestions'] = "No"
         
+        # result = {
+        #     "score": 5,
+        #     "evaluations": 'hhha',
+        #     "suggestions": 'hhha'
+        # }
         return result
     
     def score_performance(self, code):
@@ -143,6 +148,12 @@ class CodeAnalysisTool:
             result['evaluations'] = "No"
         if result['suggestions'] == None:
             result['suggestions'] = "No"
+            
+        # result = {
+        #     "score": 5,
+        #     "evaluations": 'hhha',
+        #     "suggestions": 'hhha'
+        # }
         
         return result
     
@@ -170,6 +181,12 @@ class CodeAnalysisTool:
         if result['suggestions'] == None:
             result['suggestions'] = "No"
         
+        # result = {
+        #     "score": 5,
+        #     "evaluations": 'hhha',
+        #     "suggestions": 'hhha'
+        # }
+        
         return result
     
     def score_security(self, code):
@@ -196,6 +213,12 @@ class CodeAnalysisTool:
         if result['suggestions'] == None:
             result['suggestions'] = "No"
         
+        # result = {
+        #     "score": 5,
+        #     "evaluations": 'hhha',
+        #     "suggestions": 'hhha'
+        # }
+        
         return result
     
     def score_maintainability(self, code):
@@ -221,6 +244,12 @@ class CodeAnalysisTool:
             result['evaluations'] = "No"
         if result['suggestions'] == None:
             result['suggestions'] = "No"
+        
+        # result = {
+        #     "score": 5,
+        #     "evaluations": 'hhha',
+        #     "suggestions": 'hhha'
+        # }
         
         return result
 
@@ -274,6 +303,10 @@ class IntelligentOps:
         evaluation_report = self.evaluate_code_quality(code)
         issues = self.analyze_code_issues(code)
         optimization_suggestions = self.generate_suggestions(code, issues)
+        # file_info = "file_info"
+        # evaluation_report = "evaluation_report"
+        # issues = "issues"
+        # optimization_suggestions = "optimization_suggestions"
         
         # 可读性
         readability_data = self.code_analysis_tool.score_readability(code)

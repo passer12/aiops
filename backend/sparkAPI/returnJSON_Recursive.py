@@ -68,6 +68,24 @@ def evaluate_store_repo(repo, repo_object, parent_node=None, path=""):
                     label=content.name,
                     parent=parent_node
                 )
+                NodeScore.objects.create(
+                    node=tree_node,
+                    score_readability=None,
+                    score_readability_evaluations="当前选择为目录",
+                    score_readability_suggestions="当前选择为目录",
+                    score_performance=None,
+                    score_performance_evaluations="当前选择为目录",
+                    score_performance_suggestions="当前选择为目录",
+                    score_usability=None,
+                    score_usability_evaluations="当前选择为目录",
+                    score_usability_suggestions="当前选择为目录",
+                    score_security=None,
+                    score_security_evaluations="当前选择为目录",
+                    score_security_suggestions="当前选择为目录",
+                    score_maintainability=None,
+                    score_maintainability_evaluations="当前选择为目录",
+                    score_maintainability_suggestions="当前选择为目录"
+                )
                 # print(f"Created TreeNode for directory: {tree_node}")
                 evaluate_store_repo(repo, repo_object, tree_node, content.path)
             else:

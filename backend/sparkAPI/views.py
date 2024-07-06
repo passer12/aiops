@@ -20,23 +20,91 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
-from django.db.models import Avg, F
+from django.db.models import Avg, Count, Case, When, FloatField, Value
 
-def calculate_average_scores(repository):
-    # 获取指定Repository的所有TreeNode
-    nodes = TreeNode.objects.filter(repo=repository)
+def calculate_average_scores(repository_id):
+    # 获取指定Repository的所有TreeNode，并左外连接NodeScore
+    nodes = TreeNode.objects.filter(repo_id=repository_id).annotate(
+        score_readability=Case(
+            When(score__isnull=False, then='score__score_readability'),
+            default=Value(None),
+            output_field=FloatField()
+        ),
+        score_performance=Case(
+            When(score__isnull=False, then='score__score_performance'),
+            default=Value(None),
+            output_field=FloatField()
+        ),
+        score_usability=Case(
+            When(score__isnull=False, then='score__score_usability'),
+            default=Value(None),
+            output_field=FloatField()
+        ),
+        score_security=Case(
+            When(score__isnull=False, then='score__score_security'),
+            default=Value(None),
+            output_field=FloatField()
+        ),
+        score_maintainability=Case(
+            When(score__isnull=False, then='score__score_maintainability'),
+            default=Value(None),
+            output_field=FloatField()
+        )
+    )
     
-    # 计算每个评分维度的平均值
-    avg_scores = NodeScore.objects.filter(node__in=nodes).aggregate(
+    # 计算每个评分维度的平均值，忽略None值
+    avg_scores = nodes.aggregate(
         avg_readability=Avg('score_readability'),
         avg_performance=Avg('score_performance'),
         avg_usability=Avg('score_usability'),
         avg_security=Avg('score_security'),
-        avg_maintainability=Avg('score_maintainability')
+        avg_maintainability=Avg('score_maintainability'),
+        total_nodes=Count('id'),
+        scored_nodes=Count('score')
     )
-    print(avg_scores)
+    
+    # 计算总平均分
+    score_fields = ['avg_readability', 'avg_performance', 'avg_usability', 'avg_security', 'avg_maintainability']
+    valid_scores = [avg_scores[field] for field in score_fields if avg_scores[field] is not None]
+    avg_scores['total_avg'] = sum(valid_scores) / len(valid_scores) if valid_scores else None
+    
+    # 计算评分覆盖率
+    avg_scores['coverage'] = avg_scores['scored_nodes'] / avg_scores['total_nodes'] if avg_scores['total_nodes'] > 0 else 0
     
     return avg_scores
+
+# from django.db.models import Avg, F
+
+# def calculate_average_scores(repository):
+#     # 获取指定Repository的所有TreeNode，并左外连接NodeScore
+#     nodes = TreeNode.objects.filter(repo=repository).annotate(
+#         score_readability=F('score__score_readability'),
+#         score_performance=F('score__score_performance'),
+#         score_usability=F('score__score_usability'),
+#         score_security=F('score__score_security'),
+#         score_maintainability=F('score__score_maintainability')
+#     )
+    
+#     # # 计算每个评分维度的平均值
+#     # avg_scores = NodeScore.objects.filter(node__in=nodes).aggregate(
+#     #     avg_readability=Avg('score_readability'),
+#     #     avg_performance=Avg('score_performance'),
+#     #     avg_usability=Avg('score_usability'),
+#     #     avg_security=Avg('score_security'),
+#     #     avg_maintainability=Avg('score_maintainability')
+#     # )
+    
+#     # 计算每个评分维度的平均值，忽略None值
+#     avg_scores = nodes.aggregate(
+#         avg_readability=Avg('score_readability'),
+#         avg_performance=Avg('score_performance'),
+#         avg_usability=Avg('score_usability'),
+#         avg_security=Avg('score_security'),
+#         avg_maintainability=Avg('score_maintainability')
+#     )
+#     print(avg_scores)
+    
+#     return avg_scores
 
 # 递归将节点转换为字典
 def node_to_dict(node):
